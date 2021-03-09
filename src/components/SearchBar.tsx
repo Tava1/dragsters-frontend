@@ -1,13 +1,12 @@
+import { FaSearch } from 'react-icons/fa';
+
+import styles from '../styles/components/SearchBar.module.css'
+
 export default function SearchBar() {
   return (
-    <div>
-
-      <form action="">
-        <input type="text" placeholder="Busca por produtos" />
-        <button>Procurar</button>
-      </form>
-
-
+    <div className={styles.containerSearchBar}>
+      <FaSearch size={20} />
+      <input type="text" placeholder="Busca por produtos" />
     </div>
   )
 }

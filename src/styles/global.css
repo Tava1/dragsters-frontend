@@ -8,8 +8,9 @@
   --white: #FFF;
   --background: #FFF;
   --red: #DF3030;
-  --text: #000;
-  --line-gray: rgb(238, 238, 238);
+  --text: #585858;
+  --line: #D8D8D8;
+  --text-white: #FFF;
   --manager-background: #EDEDED;
 }
 

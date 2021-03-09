@@ -1,0 +1,18 @@
+.containerSearchBar {
+  border: 1px solid var(--line);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerSearchBar input {
+  border: 0;
+  flex: 1;
+  background: transparent;
+
+}
+
+.containerSearchBar svg {
+  margin-right: 16px;
+}
