@@ -1,0 +1,83 @@
+.container {
+  background: var(--manager-background);
+  height: 100vh;
+}
+
+.containerList {
+  background: var(--background);
+  width: 992px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+  box-shadow: 2px 2px 10px rgba(141, 141, 141, 0.4);
+
+}
+
+.containerListProducts {
+  margin-top: 1rem;
+}
+
+.listHeader {
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+
+.listHeader div > span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.id {
+  flex: 0 0 80px;
+  text-align: center;
+}
+
+.title {
+  flex: 0 0 150px;
+}
+
+.description {
+  flex: 0 0 220px;
+}
+
+.rating {
+  flex: 0 0 80px;
+  text-align: center;
+
+}
+
+.supply {
+  text-align: center;
+  flex: 0 0 120px;
+}
+
+.price {
+  text-align: center;
+  flex: 0 0 130px;
+}
+
+.status {
+  text-align: center;
+}
+
+.actions {
+  flex: 1;
+  text-align: center;
+}
+
+.listBody .line {
+  display: flex;
+  align-items: center;
+
+  height: 60px;
+  background-color: var(--white);
+}
+
+.listBody .line:hover {
+  background-color: rgba(238, 238, 238, 0.4);
+}
+
+.listBody .line .actions > a {
+  margin: 0.3rem;
+}

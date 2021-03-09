@@ -1,0 +1,45 @@
+.navigationContainer {
+  height: 80px;
+  background-color: var(--white);
+  box-shadow: 0px 5px 5px rgb(0, 0, 0,0.10);
+}
+
+.navigationBar {
+  height: 100%;
+  margin: 0 auto;
+  width: 992px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigationBar .logo {
+  color: var(--red);
+}
+
+.navigationBar nav {
+  display: flex;
+}
+
+.navigationBar nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigationBar nav ul li {
+  margin-left: 1rem;
+} 
+
+.navigationBar nav .signInSignOut {
+  margin-left: 2.3rem;
+  font-weight: bold;
+}
+
+.navigationBar nav .signInSignOut a + a{
+  margin-left: 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 7px;
+  background: var(--red);
+  color: var(--white);
+}
