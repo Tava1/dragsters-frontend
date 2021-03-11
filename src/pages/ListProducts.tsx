@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FaEye, FaEllipsisV } from 'react-icons/fa';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +10,7 @@ import Navigation from '../components/Navigation';
 
 import api from '../services/api';
 
-import styles from '../styles/pages/ListProducts.module.css'
+import styles from '../styles/pages/ListProducts.module.scss'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ListProducts() {
   const classes = useStyles();
+  const router = useRouter();
 
   const [products, setProducts] = useState([]);
 
@@ -29,7 +31,19 @@ export default function ListProducts() {
       setProducts(response.data);
     });
 
-  }, []);
+  }, [products]);
+
+  async function setStatusProductTrue(id) {
+    await api.patch(`/products/${id}/true`).then((response) => {
+      console.log(response.data)
+    })
+  }
+
+  async function setStatusProductFalse(id) {
+    await api.patch(`/products/${id}/false`).then((response) => {
+      console.log(response.data)
+    })
+  }
 
   return (
     <>
@@ -38,17 +52,17 @@ export default function ListProducts() {
       <div className={styles.container}>
         <div className={styles.containerList}>
 
-          <header className={styles.listContext}>
+          <header>
             <div>
               <h2>Produtos <strong>{products.length}</strong></h2>
               <p>Gerenciamento de produtos cadastrados no sistema.</p>
             </div>
             <SearchBar />
-            <Link href="/">Novo Produto</Link>
+            <Link href="/CreateProduct">Novo Produto</Link>
           </header>
 
           {products.length > 0 ?
-            <main className={styles.containerListProducts}>
+            <main>
               <div className={styles.listHeader}>
                 <div className={styles.id}>
                   <span>#ID</span>
@@ -68,7 +82,7 @@ export default function ListProducts() {
                 <div className={styles.price}>
                   <span>PREÇO</span>
                 </div>
-                as 20h. A                <div className={styles.actions}>
+                <div className={styles.actions}>
                   <span>AÇÕES</span>
                 </div>
               </div>
@@ -97,18 +111,40 @@ export default function ListProducts() {
                     <div className={styles.status}>
                       {
                         product.status
-                          ? <button>Ativar</button>
-                          : <button>Desativar</button>
+                          ?
+                          <button
+                            className={styles.active}
+                            onClick={() => setStatusProductFalse(product.product_id)}
+                          >
+                            INATIVAR
+                        </button>
+                          :
+                          <button
+                            className={styles.inactive}
+                            onClick={() => setStatusProductTrue(product.product_id)}
+                          >
+                            REATIVAR
+                        </button>
                       }
                     </div>
                     <div className={styles.actions}>
 
-                      <a href="#">
+                      <span
+                        onClick={() => router.push({
+                          pathname: '/showcase',
+                          query: { id: product.product_id }
+                        })}
+                      >
                         <FaEye size={20} />
-                      </a>
-                      <a href="#">
+                      </span>
+                      <span
+                        onClick={() => router.push({
+                          pathname: '/UpdateProduct',
+                          query: { id: product.product_id }
+                        })}
+                      >
                         <FaEllipsisV size={20} />
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </div>
