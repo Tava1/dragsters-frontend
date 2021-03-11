@@ -1,3 +1,24 @@
+.adminNavBar {
+  background-color: var(--black);
+  
+  div {
+    margin: 0 auto;
+    width: 992px;
+    height: 70px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    a {
+      padding: 1rem;
+      background-color: var(--white);
+      color: var(--black);
+      border-radius: 7px;
+      font-weight: bold;
+    }
+  }
+}
 .container {
   width: 992px;
   margin: 120px auto;
