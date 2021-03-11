@@ -48,7 +48,7 @@ export default function ListProducts() {
           </header>
 
           {products.length > 0 ?
-            <div className={styles.containerListProducts}>
+            <main className={styles.containerListProducts}>
               <div className={styles.listHeader}>
                 <div className={styles.id}>
                   <span>#ID</span>
@@ -113,7 +113,7 @@ export default function ListProducts() {
                   </div>
                 </div>
               ))}
-            </div>
+            </main>
 
             : <p>Nenhum registro foi encontrado. Realize o cadastro de novos produtos.</p>}
 

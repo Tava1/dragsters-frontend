@@ -1,10 +1,14 @@
-import CreateProduct from './CreateProduct'
-import ListProducts from './ListProducts'
+import CreateProduct from './CreateProduct';
+import ListProducts from './ListProducts';
+import UpdateProduct from './UpdateProduct';
+import Showcase from './Showcase';
 
 export default function Index() {
   return (
     <div>
-      <ListProducts />
+      {/* <ListProducts /> */}
+      <Showcase />
+      {/* <UpdateProduct /> */}
     </div>
   )
 }
