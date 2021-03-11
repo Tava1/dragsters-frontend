@@ -1,0 +1,132 @@
+.container {
+  width: 992px;
+  margin: 120px auto;
+
+  display: flex;
+
+  .showcaseImages {
+    display: flex;
+    align-items: center;
+
+    .mainImage {
+
+      img {
+        height: 400px;
+      }
+    }
+
+    .images {
+      div {
+        img {
+          width: 120px;
+        }
+      }
+    }
+  }
+
+  .showcaseInfo {
+    margin-left: 1rem;
+
+    .title {
+      h2 {
+        color: var(--text-highlight);
+      }
+      p {
+        font-weight: bold;
+        color: var(--red);
+      }
+    }
+
+    .specs {
+      margin: 2rem 0;
+      div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0.5rem 0;
+        
+        span { 
+          font-weight: 200;
+        }
+
+        .line {
+          background-color: turquoise;
+          height: 1px;
+          width: 100%;
+          margin: 0 1rem;
+          border-bottom: 1px solid;
+        }
+
+        span {
+          strong {
+            color: var(--text-highlight);
+            font-weight: bold;
+          }
+        }
+
+        .stars {
+          img {
+            height: 20px;
+            margin: 0 2px;
+          }
+        }
+      }
+    }
+
+    .description {
+      margin: 1.5rem 0;
+    }
+
+    .price {
+      display: flex;
+      justify-content: flex-end;
+      span {
+        color: var(--text-highlight);
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: var(--text);
+
+        strong {
+          font-size: 1.5rem;
+          color: var(--text-highlight);
+
+        }
+      }
+    }
+
+    .actions {
+      margin: 1rem 0;
+
+      div {
+        margin: 0.5rem 0;
+        &:last-child {
+          button {
+            color: var(--red);
+            background: var(--white);
+            border: 1px solid var(--red);
+          
+            transition: background 0.2s;
+
+            &:hover {
+              background: var(--red);
+              color: var(--white);
+            }
+          
+          }
+        }
+      }
+    }
+  }
+}
+
+.moreAd {
+  div {
+    background: var(--black);
+
+    padding: 3rem 0;
+    h3 {
+      text-align: center;
+      color: var(--white);
+    }
+  }
+}
