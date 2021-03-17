@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
 
 import Link from 'next/link';
 
@@ -14,62 +15,28 @@ import api from '../services/api';
 
 export default function CreateProduct() {
   const router = useRouter();
-
-  const [productId, setProductId] = useState('');
-  const [productName, setProductName] = useState('');
-  const [productFullname, setProductFullname] = useState('');
-  const [brand, setBrand] = useState('');
-  const [description, setDescription] = useState('');
-  const [supply, setSupply] = useState();
-  const [price, setPrice] = useState();
+  const { register, handleSubmit } = useForm();
   const [isActive, setIsActive] = useState(true);
+
 
   const [uploadedFiles, setUploadedFIles] = useState([]);
 
-  async function createNewProduct(e) {
-    e.preventDefault();
-
-    const showcase = new FormData();
-
-    uploadedFiles.map(item => {
-      showcase.append('showcase', item)
-    })
-
-    const data = {
-      product_name: productName,
-      product_fullname: productFullname,
-      brand,
-      description,
-      supply,
-      price,
-      status: isActive,
-      stars: 0,
-    }
+  const handleNewProduct = useCallback(async (data) => {
+    data.status = isActive;
+    data.stars = 0;
 
     try {
       await api.post('/products', data).then((response) => {
-        console.log(response.data)
-        setProductId(response.data.product_id);
+        router.push('/ListProducts');
       });
-
-      // await api.post(`/products/images/${productId}`, showcase, {
-      //   headers: {
-      //     'content-type': 'multipart/form-data'
-      //   }
-      // }).then((response) => {
-      //   console.log(response.data)
-      // })
-
-      router.push('/ListProducts');
-
     } catch (error) {
       console.log(error.response)
     }
-  }
 
-  function setStatusTrue(e) {
+  }, []);
+
+  const setStatusTrue = (e) => {
     e.preventDefault();
-    console.log(isActive)
 
     if (isActive === true) {
       return
@@ -77,9 +44,9 @@ export default function CreateProduct() {
     setIsActive(true);
   }
 
-  function setStatusFalse(e) {
+  const setStatusFalse = (e) => {
     e.preventDefault();
-    console.log(isActive)
+
     if (isActive === false) {
       return
     }
@@ -91,7 +58,6 @@ export default function CreateProduct() {
       <Navigation />
       <div className={styles.container}>
         <div className={styles.containerCreate}>
-
           <header>
             <div>
               <h2>Novo Produtos</h2>
@@ -101,64 +67,66 @@ export default function CreateProduct() {
           </header>
 
           <main>
-            <form action="">
-
+            <form onSubmit={handleSubmit(handleNewProduct)}>
               <div className={styles.inputGroup}>
                 <Input
+                  name="product_name"
                   type="text"
                   title="Titulo"
                   id="product_name"
-                  value={productName}
-                  onChange={e => setProductName(e.target.value)}
+                  register={register}
                 />
 
                 <Input
+                  name="product_fullname"
                   type="text"
                   title="Titulo completo"
                   id="product_fullname"
-                  value={productFullname}
-                  onChange={e => setProductFullname(e.target.value)}
+                  register={register}
                 />
 
                 <Input
+                  name="brand"
                   type="text"
                   title="Marca"
                   id="product_brand"
-                  value={brand}
-                  onChange={e => setBrand(e.target.value)}
+                  register={register}
                 />
               </div>
 
               <TextArea
+                name="description"
                 title="Descrição"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
+                register={register}
               />
 
               <div className={styles.inputGroup}>
                 <Input
+                  name="supply"
                   type="number"
                   title="Estoque"
                   id="supply"
-                  value={supply}
-                  onChange={e => setSupply(e.target.value)}
+                  register={register}
                 />
 
                 <Input
+                  name="price"
                   type="number"
                   title="Preço"
                   id="price"
-                  value={price}
-                  onChange={e => setPrice(e.target.value)}
+                  register={register}
                 />
 
                 <Input
+                  name="stars"
                   type="number"
                   title="Avaliação"
                   id="stars"
                   min="0"
                   max="5"
                   disabled
+                  value="0"
+                  register={register}
                 />
 
                 <div className={styles.isActive}>
@@ -189,7 +157,6 @@ export default function CreateProduct() {
                 <Button
                   title="Salvar"
                   type="submit"
-                  onClick={createNewProduct}
                 />
               </div>
             </form>
