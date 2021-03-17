@@ -4,15 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.containerSearchBar input {
-  border: 0;
-  flex: 1;
-  background: transparent;
+  input {
+    border: 0;
+    flex: 1;
+    background: transparent;
+  }
 
-}
-
-.containerSearchBar svg {
-  margin-right: 16px;
+  svg {
+    margin-right: 16px;
+  }
 }

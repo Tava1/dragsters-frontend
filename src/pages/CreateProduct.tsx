@@ -1,14 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-
 import Link from 'next/link';
 
-import Navigation from '../components/Navigation';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import TextArea from '../components/TextArea';
-import Upload from '../components/Upload';
+import Header from '../components/modules/Header';
+import Input from '../components/elements/Input';
+import Button from '../components/elements/Button';
+import TextArea from '../components/elements/TextArea';
+import Upload from '../components/elements/Upload';
 
 import styles from '../styles/pages/CreateProduct.module.scss'
 import api from '../services/api';
@@ -55,7 +54,7 @@ export default function CreateProduct() {
 
   return (
     <>
-      <Navigation />
+      <Header />
       <div className={styles.container}>
         <div className={styles.containerCreate}>
           <header>

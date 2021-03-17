@@ -1,4 +1,4 @@
-import styles from '../styles/components/Input.module.scss';
+import styles from './styles.module.scss';
 
 export default function Input({ register, title, ...rest }) {
 

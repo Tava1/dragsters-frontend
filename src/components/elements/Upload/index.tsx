@@ -1,8 +1,8 @@
 import { useDropzone } from 'react-dropzone';
 
-import styles from '../styles/components/Upload.module.scss';
+import styles from './styles.module.scss';
 
-export default function Upload(props) {
+export default function Upload() {
 
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } = useDropzone({ accept: 'image/jpeg, image/png' });
 

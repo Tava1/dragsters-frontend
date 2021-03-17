@@ -1,4 +1,4 @@
-import styles from '../styles/components/TextArea.module.scss';
+import styles from './styles.module.scss';
 
 export default function TextArea({ register, title, ...rest }) {
   return (

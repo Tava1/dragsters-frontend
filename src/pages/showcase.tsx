@@ -4,14 +4,14 @@ import Link from 'next/link';
 
 import { FaCartPlus } from 'react-icons/fa'
 
-import Navigation from '../components/Navigation';
-import Button from '../components/Button';
+import Header from '../components/modules/Header';
+import Button from '../components/elements/Button';
 
 import styles from '../styles/pages/Showcase.module.scss';
 
 import api from '../services/api';
 
-export default function showcase() {
+export default function Showcase() {
   const router = useRouter();
 
   const [product, setProduct] = useState(null);
@@ -26,7 +26,7 @@ export default function showcase() {
 
   return (
     <>
-      <Navigation />
+      <Header />
       <section className={styles.adminNavBar}>
         <div>
           <Link href="/ListProducts">Lista de produtos</Link>

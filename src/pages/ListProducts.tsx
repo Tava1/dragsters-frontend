@@ -5,8 +5,8 @@ import { FaEye, FaEllipsisV } from 'react-icons/fa';
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 
-import SearchBar from '../components/SearchBar';
-import Navigation from '../components/Navigation';
+import SearchBar from '../components/elements/SearchBar';
+import Header from '../components/modules/Header';
 
 import api from '../services/api';
 
@@ -47,7 +47,7 @@ export default function ListProducts() {
 
   return (
     <>
-      <Navigation />
+      <Header />
 
       <div className={styles.container}>
         <div className={styles.containerList}>

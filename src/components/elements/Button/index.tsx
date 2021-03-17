@@ -1,4 +1,4 @@
-import styles from '../styles/components/Button.module.scss';
+import styles from './styles.module.scss';
 
 export default function Button({ title, ...rest }) {
   return (

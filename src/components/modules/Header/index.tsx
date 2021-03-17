@@ -1,5 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
-import styles from '../styles/components/Navigation.module.css'
+
+import styles from './styles.module.scss';
 
 export default function Navigation() {
   return (
@@ -7,9 +8,7 @@ export default function Navigation() {
       <div className={styles.navigationBar}>
         <div className={styles.logo}>
           <h1>
-            <a href="">
-              DRAGSTERS
-          </a>
+            <a href="">DRAGSTERS</a>
           </h1>
         </div>
 

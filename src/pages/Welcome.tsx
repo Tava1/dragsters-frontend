@@ -1,11 +1,11 @@
-import Navigation from "../components/Navigation"
+import Header from "../components/modules/Header"
 
 import styles from "../styles/pages/MainPage.module.scss"
 
-export default function MainPage() {
+export default function Welcome() {
   return (
     <>
-      <Navigation />
+      <Header />
 
       <main className={styles.banner}>
         <div className={styles.bannerLeft}>
