@@ -5,12 +5,12 @@ import { FaEye, FaEllipsisV } from 'react-icons/fa';
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 
-import SearchBar from '../components/elements/SearchBar';
-import Header from '../components/modules/Header';
+import SearchBar from '../../components/elements/SearchBar';
+import Header from '../../components/modules/Header';
 
-import api from '../services/api';
+import api from '../../services/api';
 
-import styles from '../styles/pages/ListProducts.module.scss'
+import styles from '../../styles/pages/ListProducts.module.scss'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListProducts() {
+export default function List() {
   const classes = useStyles();
   const router = useRouter();
 
@@ -58,7 +58,7 @@ export default function ListProducts() {
               <p>Gerenciamento de produtos cadastrados no sistema.</p>
             </div>
             <SearchBar />
-            <Link href="/CreateProduct">Novo Produto</Link>
+            <Link href="/products/Create">Novo Produto</Link>
           </header>
 
           {products.length > 0 ?
@@ -139,7 +139,7 @@ export default function ListProducts() {
                       </span>
                       <span
                         onClick={() => router.push({
-                          pathname: '/UpdateProduct',
+                          pathname: '/products/Update',
                           query: { id: product.product_id }
                         })}
                       >

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FaSearch } from 'react-icons/fa';
 
 import styles from './styles.module.scss';
@@ -8,7 +9,7 @@ export default function Navigation() {
       <div className={styles.navigationBar}>
         <div className={styles.logo}>
           <h1>
-            <a href="">DRAGSTERS</a>
+            <Link href="/">DRAGSTERS</Link>
           </h1>
         </div>
 

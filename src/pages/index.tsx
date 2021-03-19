@@ -1,11 +1,9 @@
-import CreateProduct from './CreateProduct';
-import ListProducts from './ListProducts';
-import UpdateProduct from './UpdateProduct';
+import List from './products/List';
 
 export default function Index() {
   return (
     <div>
-      <ListProducts />
+      <List />
     </div>
   )
 }

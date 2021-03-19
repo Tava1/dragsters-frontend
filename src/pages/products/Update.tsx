@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import Header from '../components/modules/Header';
-import Input from '../components/elements/Input';
-import Button from '../components/elements/Button';
-import TextArea from '../components/elements/TextArea';
-import Upload from '../components/elements/Upload';
+import Header from '../../components/modules/Header';
+import Input from '../../components/elements/Input';
+import Button from '../../components/elements/Button';
+import TextArea from '../../components/elements/TextArea';
 
-import styles from '../styles/pages/UpdateProduct.module.scss';
-import api from '../services/api';
+import styles from '../../styles/pages/UpdateProduct.module.scss';
+import api from '../../services/api';
+import { useForm } from 'react-hook-form';
 
 interface Product {
   product_id: string;
@@ -30,8 +30,11 @@ interface Product {
   ]
 }
 
-export default function UpdateProduct() {
+export default function Update() {
   const router = useRouter();
+
+  const { register, handleSubmit } = useForm();
+
   const [product, setProduct] = useState<Product | null>();
   const { id } = router.query;
 
@@ -40,69 +43,59 @@ export default function UpdateProduct() {
   const [productFullname, setProductFullname] = useState('');
   const [brand, setBrand] = useState('');
   const [description, setDescription] = useState('');
-  const [supply, setSupply] = useState();
-  const [stars, setStars] = useState();
-  const [price, setPrice] = useState();
+  const [supply, setSupply] = useState(0);
+  const [stars, setStars] = useState(0);
+  const [price, setPrice] = useState('');
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    api.get(`/products/${id}`).then((response) => {
-      const { product, showcase } = response.data
-      setProduct(response.data)
 
-      setProductID(product.product_id);
-      setProductName(product.product_name);
-      setProductFullname(product.product_fullname);
-      setBrand(product.brand);
-      setDescription(product.description);
-      setSupply(product.supply);
-      setPrice(product.price);
-      setStars(product.stars);
-      setIsActive(product.status);
-    })
-  }, [isActive]);
-
-  async function updateProduct(e) {
-    e.preventDefault();
-
-    const data = {
-      product_name: productName,
-      product_fullname: productFullname,
-      brand,
-      description,
-      supply,
-      price,
-      status: isActive
+    try {
+      api.get(`/products/${id}`).then((response) => {
+        const { product, showcase } = response.data
+        setProduct(response.data)
+        setProductID(product.product_id);
+        setProductName(product.product_name);
+        setProductFullname(product.product_fullname);
+        setBrand(product.brand);
+        setDescription(product.description);
+        setSupply(product.supply);
+        setPrice(product.price);
+        setStars(product.stars);
+        setIsActive(product.status);
+      });
+    } catch (error) {
+      console.log(error);
     }
+  }, []);
+
+
+  const handleUpdateProduct = useCallback(async (data) => {
+
+    data.status = isActive;
 
     try {
       await api.put(`products/${id}`, data).then((response) => {
         console.log(response);
       });
-      router.push('/ListProducts');
+      router.push('/products/List');
     } catch (error) {
       console.log(error)
     }
-  }
 
-  async function setStatusProductTrue(e) {
+  }, []);
+
+  const setStatus = (e) => {
     e.preventDefault();
 
-    await api.patch(`/products/${id}/true`).then((response) => {
-      console.log(response.data);
-      setIsActive(response.data)
-    })
+    if (isActive) {
+      setIsActive(false);
+      console.log(`to false: ${isActive}`)
+      return;
+    }
+    setIsActive(true);
+    console.log(`to true: ${isActive}`)
   }
-
-  async function setStatusProductFalse(e) {
-    e.preventDefault();
-
-    await api.patch(`/products/${id}/false`).then((response) => {
-      console.log(response.data);
-      setIsActive(response.data)
-    })
-  }
-
 
   return (
     <>
@@ -119,80 +112,88 @@ export default function UpdateProduct() {
 
           {product && (
             <main>
-              <form action="">
+              <form onSubmit={handleSubmit(handleUpdateProduct)}>
 
                 <div className={styles.inputGroup}>
                   <Input
+                    name="product_name"
                     type="text"
                     title="Titulo"
                     id="product_name"
-                    value={productName}
-                    onChange={e => setProductName(e.target.value)}
+                    register={register}
+                    defaultValue={productName}
                   />
 
                   <Input
+                    name="product_fullname"
                     type="text"
                     title="Titulo completo"
                     id="product_fullname"
-                    value={productFullname}
-                    onChange={e => setProductFullname(e.target.value)}
+                    register={register}
+                    defaultValue={productFullname}
                   />
 
                   <Input
+                    name="brand"
                     type="text"
                     title="Marca"
                     id="product_brand"
-                    value={brand}
-                    onChange={e => setBrand(e.target.value)}
+                    register={register}
+                    defaultValue={brand}
                   />
                 </div>
 
                 <TextArea
+                  name="description"
                   title="Descrição"
-                  value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  defaultValue={description}
+                  register={register}
                 />
 
                 <div className={styles.inputGroup}>
                   <Input
+                    name="supply"
                     type="number"
                     title="Estoque"
                     id="supply"
-                    value={supply}
-                    onChange={e => setSupply(e.target.value)}
+                    defaultValue={supply}
+                    register={register}
                   />
 
                   <Input
+                    name="price"
                     type="number"
                     title="Preço"
                     id="price"
-                    value={price}
-                    onChange={e => setPrice(e.target.value)}
+                    defaultValue={price}
+                    register={register}
                   />
 
                   <Input
+                    name="stars"
                     type="number"
                     title="Avaliação"
                     id="stars"
                     disabled
-                    value={stars}
+                    defaultValue={stars}
+                    register={register}
                   />
 
                   <div className={styles.status}>
-                    <label htmlFor="">Ativo/Inativo</label>
+                    <label>Ativo/Inativo</label>
                     {
                       isActive
                         ?
                         <button
                           className={styles.active}
-                          onClick={setStatusProductFalse}
+                          onClick={setStatus}
                         >
                           INATIVAR
                         </button>
                         :
                         <button
                           className={styles.inactive}
-                          onClick={setStatusProductTrue}
+                          onClick={setStatus}
                         >
                           REATIVAR
                         </button>
@@ -200,14 +201,11 @@ export default function UpdateProduct() {
                   </div>
                 </div>
 
-                {/* <Upload /> */}
-
                 <div className={styles.actions}>
                   <Link href="/">Cancelar</Link>
                   <Button
                     title="Salvar"
                     type="submit"
-                    onClick={updateProduct}
                   />
                 </div>
               </form>

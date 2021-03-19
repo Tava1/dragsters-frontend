@@ -3,20 +3,19 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link';
 
-import Header from '../components/modules/Header';
-import Input from '../components/elements/Input';
-import Button from '../components/elements/Button';
-import TextArea from '../components/elements/TextArea';
-import Upload from '../components/elements/Upload';
+import Header from '../../components/modules/Header';
+import Input from '../../components/elements/Input';
+import Button from '../../components/elements/Button';
+import TextArea from '../../components/elements/TextArea';
+import Upload from '../../components/elements/Upload';
 
-import styles from '../styles/pages/CreateProduct.module.scss'
-import api from '../services/api';
+import styles from '../../styles/pages/CreateProduct.module.scss'
+import api from '../../services/api';
 
-export default function CreateProduct() {
+export default function Create() {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
   const [isActive, setIsActive] = useState(true);
-
 
   const [uploadedFiles, setUploadedFIles] = useState([]);
 
@@ -26,7 +25,7 @@ export default function CreateProduct() {
 
     try {
       await api.post('/products', data).then((response) => {
-        router.push('/ListProducts');
+        router.push('/products/List');
       });
     } catch (error) {
       console.log(error.response)
@@ -34,22 +33,14 @@ export default function CreateProduct() {
 
   }, []);
 
-  const setStatusTrue = (e) => {
+  const setStatus = (e) => {
     e.preventDefault();
 
-    if (isActive === true) {
-      return
+    if (isActive) {
+      setIsActive(false);
+      return;
     }
     setIsActive(true);
-  }
-
-  const setStatusFalse = (e) => {
-    e.preventDefault();
-
-    if (isActive === false) {
-      return
-    }
-    setIsActive(false);
   }
 
   return (
@@ -62,7 +53,7 @@ export default function CreateProduct() {
               <h2>Novo Produtos</h2>
               <p>Reúna as informações necessárias e cadastre um novo produto.</p>
             </div>
-            <Link href="/ListProducts">Lista de produtos</Link>
+            <Link href="/products/List">Lista de produtos</Link>
           </header>
 
           <main>
@@ -134,14 +125,14 @@ export default function CreateProduct() {
                     isActive ?
                       <button
                         className={styles.active}
-                        onClick={setStatusFalse}
+                        onClick={setStatus}
                       >
                         ATIVO
                     </button>
                       :
                       <button
                         className={styles.inactive}
-                        onClick={setStatusTrue}
+                        onClick={setStatus}
                       >
                         INATIVO
                     </button>
@@ -152,7 +143,7 @@ export default function CreateProduct() {
               <Upload />
 
               <div className={styles.actions}>
-                <Link href="/ListProducts">Cancelar</Link>
+                <Link href="/products/List">Cancelar</Link>
                 <Button
                   title="Salvar"
                   type="submit"

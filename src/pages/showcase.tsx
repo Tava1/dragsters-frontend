@@ -29,7 +29,7 @@ export default function Showcase() {
       <Header />
       <section className={styles.adminNavBar}>
         <div>
-          <Link href="/ListProducts">Lista de produtos</Link>
+          <Link href="/products/List">Lista de produtos</Link>
         </div>
       </section>
       {product && (
