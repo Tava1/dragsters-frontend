@@ -1,9 +1,10 @@
 import List from './products/List';
+import ShowProducts from "./products/ShowProducts";
 
 export default function Index() {
   return (
     <div>
-      <List />
+      <ShowProducts />
     </div>
   )
 }
