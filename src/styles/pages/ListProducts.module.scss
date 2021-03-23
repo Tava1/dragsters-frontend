@@ -98,9 +98,25 @@
             }
           }
 
-          // .actions > a {
-          //   margin: 0.3rem;
-          // }
+          
+          .actions {
+            display: flex;
+            justify-content: space-around;
+
+            span {
+              cursor: pointer;
+              padding: 0.4rem;
+
+              svg {
+                transition: color 0.2s;
+              }
+              &:hover {
+                svg {
+                  color: var(--red);
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -150,6 +166,7 @@
 }
 
 .actions {
-  flex: 1;
   text-align: center;
+  flex: 1;
 }
+
