@@ -2,36 +2,98 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link';
+import crypto, { createHash } from 'crypto';
 
 import Header from '../../components/modules/Header';
 import Input from '../../components/elements/Input';
 import Button from '../../components/elements/Button';
 import TextArea from '../../components/elements/TextArea';
-import Upload from '../../components/elements/Upload';
 
 import styles from '../../styles/pages/CreateProduct.module.scss'
 import api from '../../services/api';
+import { app } from '../../services/firebase';
+
+interface ProductCreated {
+  product_id: string;
+  product_name: string;
+  product_fullname: string,
+  brand: string;
+  description: string;
+  stars: number;
+  status: boolean;
+  supply: number;
+  price: string;
+}
+
+const FIREBASE_PATH_PRODUCTS = "products/"
 
 export default function Create() {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
   const [isActive, setIsActive] = useState(true);
-
-  const [uploadedFiles, setUploadedFIles] = useState([]);
+  const [productCreated, setProductCreated] = useState<ProductCreated>({} as ProductCreated);
 
   const handleNewProduct = useCallback(async (data) => {
-    data.status = isActive;
-    data.stars = 0;
+    const {
+      images,
+      ...rest
+    } = data;
 
-    try {
-      await api.post('/products', data).then((response) => {
-        router.push('/products/List');
-      });
-    } catch (error) {
-      console.log(error.response)
+    rest.status = isActive;
+    rest.stars = 0;
+
+    api.post('/products', rest).then((response) => {
+      // router.push('/products/List');
+      setProductCreated(response.data)
+      console.log(response.data)
+    }).catch((error) => {
+      console.error(error);
+    })
+
+    // TODO: Criar uma mensagem de erro e retornar em tela
+    if (productCreated == undefined) return
+    const filenames = [];
+    const id = productCreated.product_name;
+
+
+    async () => {
+
+      const storageRef = app.storage().ref();
+
+      for (let i = 0; i < images.length; i++) {
+        const [, extension] = images[i].name.split('.');
+
+        const fileHash = crypto.randomBytes(8).toString('hex');
+        const filename = `${fileHash}.${id}.${extension}`;
+
+        filenames.push(filename);
+
+        const fileRef = storageRef.child(`${FIREBASE_PATH_PRODUCTS}${filename}`);
+
+        await fileRef.put(images[i]).then((respoense) => {
+          console.log(respoense);
+        }).catch((error) => {
+          console.error(error);
+        });
+      };
     }
 
-  }, []);
+    const showcaseData = {
+      product_id: id,
+      filenames,
+      path: FIREBASE_PATH_PRODUCTS,
+      thumbnail: false,
+    };
+
+    console.log(showcaseData);
+
+    api.post('/showcase', showcaseData).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.error(error);
+    });
+
+  }, [isActive]);
 
   const setStatus = (e) => {
     e.preventDefault();
@@ -40,6 +102,7 @@ export default function Create() {
       setIsActive(false);
       return;
     }
+
     setIsActive(true);
   }
 
@@ -140,7 +203,17 @@ export default function Create() {
                 </div>
               </div>
 
-              <Upload />
+              {/* <input type="file" multiple onChange={onChange} /> */}
+
+              <Input
+                name="images"
+                type="file"
+                title="Fotos"
+                id="images"
+                multiple
+                register={register}
+              />
+
 
               <div className={styles.actions}>
                 <Link href="/products/List">Cancelar</Link>
