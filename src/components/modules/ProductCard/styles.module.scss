@@ -18,6 +18,9 @@
 
   .showcase {
     margin: 1rem;
+    img {
+      width: 100%;
+    }
   }
 
   .context {
@@ -40,7 +43,7 @@
         font-size: 1rem;
       }
     }
-
+    
     .footer {
       span {
         strong {
@@ -49,8 +52,9 @@
         }
         font-size: 0.6rem;
       }
-
+      
       h2 {
+        text-transform: uppercase;
         color: var(--red);
         font-size: 1rem;
       }
