@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { app } from '../../services/firebase';
 
 import styles from "../../styles/pages/ShowProducts.module.scss"
@@ -11,6 +11,7 @@ import api from '../../services/api';
 export default function ShowProducts() {
 
   const [products, setProducts] = useState([]);
+  const [showcase, setShowcase] = useState([]);
   const [imagesUrl, setImagesUrl] = useState([]);
 
   useEffect(() => {
@@ -19,16 +20,29 @@ export default function ShowProducts() {
     }).catch((error) => {
       console.log(error)
     });
+
+    api.get('showcase').then((response) => {
+      setShowcase(response.data);
+      console.log(showcase)
+    }).catch((error) => {
+      console.log(error)
+    });
   }, []);
 
   const getImages = async () => {
 
-    const storageRef = app.storage().ref();
-    const fileRef = storageRef.child('products/30c1c40900b666ce.af05c15f-57fb-4f1b-b31e-f11f6cbe11fe.jpg');
-    const fileURL = await fileRef.getDownloadURL()
+    try {
+      const storageRef = app.storage().ref();
+      const fileRef = storageRef.child('products/770d5e4459a43fba.5d39bdcd-4c9f-417b-944b-5aef30a10d18.jpg');
+      const fileURL = await fileRef.getDownloadURL()
 
-    setImagesUrl(fileURL);
+      setImagesUrl(fileURL);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  getImages();
 
   return (
     <>
@@ -41,7 +55,7 @@ export default function ShowProducts() {
         </div>
       </div>
 
-      <div onLoad={getImages} className={styles.container}>
+      <div className={styles.container}>
         <div className={styles.grid}>
 
           {products ? products.map(product => (

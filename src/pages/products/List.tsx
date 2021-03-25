@@ -11,6 +11,7 @@ import Header from '../../components/modules/Header';
 import api from '../../services/api';
 
 import styles from '../../styles/pages/ListProducts.module.scss'
+import Loading from '../../components/modules/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,8 @@ export default function List() {
   const classes = useStyles();
   const router = useRouter();
 
+  const [hasLoading, setHasLoading] = useState(true);
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -31,6 +34,7 @@ export default function List() {
       setProducts(response.data);
     });
 
+    setHasLoading(false);
   }, [products]);
 
   async function setStatusProductTrue(id) {
@@ -48,7 +52,6 @@ export default function List() {
   return (
     <>
       <Header />
-
       <div className={styles.container}>
         <div className={styles.containerList}>
 
@@ -61,97 +64,99 @@ export default function List() {
             <Link href="/products/Create">Novo Produto</Link>
           </header>
 
-          {products.length > 0 ?
-            <main>
-              <div className={styles.listHeader}>
-                <div className={styles.id}>
-                  <span>#ID</span>
-                </div>
-                <div className={styles.title}>
-                  <span>TITULO</span>
-                </div>
-                <div className={styles.description}>
-                  <span>DESCRIÇÃO</span>
-                </div>
-                <div className={styles.rating}>
-                  <span>AVALIAÇÃO</span>
-                </div>
-                <div className={styles.supply}>
-                  <span>ESTOQUE</span>
-                </div>
-                <div className={styles.price}>
-                  <span>PREÇO</span>
-                </div>
-                <div className={styles.actions}>
-                  <span>AÇÕES</span>
-                </div>
-              </div>
-
-              {products && products.map(product => (
-                <div className={styles.listBody}>
-                  <div key={product.product_id} className={styles.line}>
-                    <div className={styles.id}>
-                      <span>###</span>
-                    </div>
-                    <div className={styles.title}>
-                      <span>{product.product_name}</span>
-                    </div>
-                    <div className={styles.description}>
-                      <span>{product.product_fullname}</span>
-                    </div>
-                    <div className={styles.rating}>
-                      <span>{product.stars}</span>
-                    </div>
-                    <div className={styles.supply}>
-                      <span>{product.supply}</span>
-                    </div>
-                    <div className={styles.price}>
-                      <span>R${product.price}</span>
-                    </div>
-                    <div className={styles.status}>
-                      {
-                        product.status
-                          ?
-                          <button
-                            className={styles.active}
-                            onClick={() => setStatusProductFalse(product.product_id)}
-                          >
-                            INATIVAR
-                        </button>
-                          :
-                          <button
-                            className={styles.inactive}
-                            onClick={() => setStatusProductTrue(product.product_id)}
-                          >
-                            REATIVAR
-                        </button>
-                      }
-                    </div>
-                    <div className={styles.actions}>
-
-                      <span
-                        onClick={() => router.push({
-                          pathname: '/showcase',
-                          query: { id: product.product_id }
-                        })}
-                      >
-                        <FaEye size={20} />
-                      </span>
-                      <span
-                        onClick={() => router.push({
-                          pathname: '/products/Update',
-                          query: { id: product.product_id }
-                        })}
-                      >
-                        <FaEllipsisV size={20} />
-                      </span>
-                    </div>
+          {hasLoading ? <Loading /> :
+            products.length > 0 ?
+              <main>
+                <div className={styles.listHeader}>
+                  <div className={styles.id}>
+                    <span>#ID</span>
+                  </div>
+                  <div className={styles.title}>
+                    <span>TITULO</span>
+                  </div>
+                  <div className={styles.description}>
+                    <span>DESCRIÇÃO</span>
+                  </div>
+                  <div className={styles.rating}>
+                    <span>AVALIAÇÃO</span>
+                  </div>
+                  <div className={styles.supply}>
+                    <span>ESTOQUE</span>
+                  </div>
+                  <div className={styles.price}>
+                    <span>PREÇO</span>
+                  </div>
+                  <div className={styles.actions}>
+                    <span>AÇÕES</span>
                   </div>
                 </div>
-              ))}
-            </main>
 
-            : <p>Nenhum registro foi encontrado. Realize o cadastro de novos produtos.</p>}
+                {products && products.map(product => (
+                  <div className={styles.listBody}>
+                    <div key={product.product_id} className={styles.line}>
+                      <div className={styles.id}>
+                        <span>###</span>
+                      </div>
+                      <div className={styles.title}>
+                        <span>{product.product_name}</span>
+                      </div>
+                      <div className={styles.description}>
+                        <span>{product.product_fullname}</span>
+                      </div>
+                      <div className={styles.rating}>
+                        <span>{product.stars}</span>
+                      </div>
+                      <div className={styles.supply}>
+                        <span>{product.supply}</span>
+                      </div>
+                      <div className={styles.price}>
+                        <span>R${product.price}</span>
+                      </div>
+                      <div className={styles.status}>
+                        {
+                          product.status
+                            ?
+                            <button
+                              className={styles.active}
+                              onClick={() => setStatusProductFalse(product.product_id)}
+                            >
+                              INATIVAR
+                        </button>
+                            :
+                            <button
+                              className={styles.inactive}
+                              onClick={() => setStatusProductTrue(product.product_id)}
+                            >
+                              REATIVAR
+                        </button>
+                        }
+                      </div>
+                      <div className={styles.actions}>
+
+                        <span
+                          onClick={() => router.push({
+                            pathname: '/showcase',
+                            query: { id: product.product_id }
+                          })}
+                        >
+                          <FaEye size={20} />
+                        </span>
+                        <span
+                          onClick={() => router.push({
+                            pathname: '/products/Update',
+                            query: { id: product.product_id }
+                          })}
+                        >
+                          <FaEllipsisV size={20} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </main>
+
+              : <p>Nenhum registro foi encontrado. Realize o cadastro de novos produtos.</p>
+          }
 
           <footer>
             <div className={classes.root}>
