@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 
-import { FaCartPlus } from 'react-icons/fa'
-
 import Header from '../components/modules/Header';
 import Button from '../components/elements/Button';
 
@@ -38,17 +36,17 @@ export default function Showcase() {
           <div className={styles.showcaseImages}>
             <div className={styles.mainImage}>
               {/* <img src={`${product.showcase[0].path}\/${product.showcase[0].filename}`} alt="" /> */}
-              <img src="/assets/mainWheelTest.jpg" alt="TEst" />
+              <img src="/assets/images/roda-rotiform.png" alt="TEst" />
             </div>
             <div className={styles.images}>
               <div>
-                <img src="/assets/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
               </div>
               <div>
-                <img src="/assets/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
               </div>
               <div>
-                <img src="/assets/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
               </div>
             </div>
           </div>
