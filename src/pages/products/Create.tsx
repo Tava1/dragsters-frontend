@@ -33,7 +33,7 @@ export default function Create() {
   const [isActive, setIsActive] = useState(true);
   const [productCreated, setProductCreated] = useState<ProductCreated>({} as ProductCreated);
 
-  const handleNewProduct = useCallback(async (data) => {
+  const handleNewProduct = async (data) => {
     const {
       images,
       ...rest
@@ -42,41 +42,45 @@ export default function Create() {
     rest.status = isActive;
     rest.stars = 0;
 
-    api.post('/products', rest).then((response) => {
-      // router.push('/products/List');
+    await api.post('/products', rest).then((response) => {
       setProductCreated(response.data)
       console.log(response.data)
     }).catch((error) => {
       console.error(error);
     })
 
-    // TODO: Criar uma mensagem de erro e retornar em tela
-    if (productCreated == undefined) return
-    const filenames = [];
-    const id = productCreated.product_name;
-
-
-    async () => {
-
-      const storageRef = app.storage().ref();
-
-      for (let i = 0; i < images.length; i++) {
-        const [, extension] = images[i].name.split('.');
-
-        const fileHash = crypto.randomBytes(8).toString('hex');
-        const filename = `${fileHash}.${id}.${extension}`;
-
-        filenames.push(filename);
-
-        const fileRef = storageRef.child(`${FIREBASE_PATH_PRODUCTS}${filename}`);
-
-        await fileRef.put(images[i]).then((respoense) => {
-          console.log(respoense);
-        }).catch((error) => {
-          console.error(error);
-        });
-      };
+    if (productCreated.product_id !== undefined) {
+      handleImages(images);
     }
+
+  };
+
+  const handleImages = async (images) => {
+
+    console.log('Enviando arquivos para o firebase...')
+
+    const filenames = [];
+    const id = productCreated.product_id;
+
+    const storageRef = app.storage().ref();
+
+    for (let i = 0; i < images.length; i++) {
+      const [, extension] = images[i].name.split('.');
+
+      const fileHash = crypto.randomBytes(8).toString('hex');
+      const filename = `${fileHash}.${id}.${extension}`;
+
+      filenames.push(filename);
+
+      const fileRef = storageRef.child(`${FIREBASE_PATH_PRODUCTS}${filename}`);
+
+      await fileRef.put(images[i]).then((respoense) => {
+        console.log(respoense);
+        router.push('/products/List');
+      }).catch((error) => {
+        console.error(error);
+      });
+    };
 
     const showcaseData = {
       product_id: id,
@@ -93,7 +97,8 @@ export default function Create() {
       console.error(error);
     });
 
-  }, [isActive]);
+  };
+
 
   const setStatus = (e) => {
     e.preventDefault();
