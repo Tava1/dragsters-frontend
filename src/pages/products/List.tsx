@@ -88,8 +88,8 @@ export default function List() {
               </div>
 
               {products && products.map(product => (
-                <div key={product.id} className={styles.listBody}>
-                  <div className={styles.line}>
+                <div className={styles.listBody}>
+                  <div key={product.product_id} className={styles.line}>
                     <div className={styles.id}>
                       <span>###</span>
                     </div>

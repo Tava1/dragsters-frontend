@@ -11,7 +11,13 @@ import styles from '../../styles/pages/UpdateProduct.module.scss';
 import api from '../../services/api';
 import { useForm } from 'react-hook-form';
 
-interface Product {
+interface ShowcaseInfo {
+  id: string;
+  filename: string;
+  path: string;
+}
+
+interface ProductDetail {
   product_id: string;
   product_name: string;
   product_fullname: string,
@@ -21,52 +27,30 @@ interface Product {
   status: boolean;
   supply: number;
   price: string;
-  showcase: [
-    {
-      id: string;
-      filename: string;
-      path: string;
-    }
-  ]
+  showcase: ShowcaseInfo[]
 }
 
 export default function Update() {
   const router = useRouter();
+  const { id } = router.query;
+
+  const [productDetail, setProductDetail] = useState<ProductDetail | null>();
+  const [productId, setProductID] = useState('');
+  const [isActive, setIsActive] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
-  const [product, setProduct] = useState<Product | null>();
-  const { id } = router.query;
-
-  const [productId, setProductID] = useState('');
-  const [productName, setProductName] = useState('');
-  const [productFullname, setProductFullname] = useState('');
-  const [brand, setBrand] = useState('');
-  const [description, setDescription] = useState('');
-  const [supply, setSupply] = useState(0);
-  const [stars, setStars] = useState(0);
-  const [price, setPrice] = useState('');
-  const [isActive, setIsActive] = useState(false);
-
   useEffect(() => {
 
-    try {
-      api.get(`/products/${id}`).then((response) => {
-        const { product, showcase } = response.data
-        setProduct(response.data)
-        setProductID(product.product_id);
-        setProductName(product.product_name);
-        setProductFullname(product.product_fullname);
-        setBrand(product.brand);
-        setDescription(product.description);
-        setSupply(product.supply);
-        setPrice(product.price);
-        setStars(product.stars);
-        setIsActive(product.status);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    api.get(`/products/${id}`).then((response) => {
+      const { product, showcase } = response.data
+
+      setProductDetail(product)
+      setProductID(product.product_id);
+      setIsActive(product.status);
+    }).catch((error) => {
+      console.error(error);
+    })
   }, []);
 
 
@@ -110,7 +94,7 @@ export default function Update() {
             </div>
           </header>
 
-          {product && (
+          {productDetail && (
             <main>
               <form onSubmit={handleSubmit(handleUpdateProduct)}>
 
@@ -121,7 +105,7 @@ export default function Update() {
                     title="Titulo"
                     id="product_name"
                     register={register}
-                    defaultValue={productName}
+                    defaultValue={productDetail.product_name}
                   />
 
                   <Input
@@ -130,7 +114,7 @@ export default function Update() {
                     title="Titulo completo"
                     id="product_fullname"
                     register={register}
-                    defaultValue={productFullname}
+                    defaultValue={productDetail.product_fullname}
                   />
 
                   <Input
@@ -139,14 +123,14 @@ export default function Update() {
                     title="Marca"
                     id="product_brand"
                     register={register}
-                    defaultValue={brand}
+                    defaultValue={productDetail.brand}
                   />
                 </div>
 
                 <TextArea
                   name="description"
                   title="Descrição"
-                  defaultValue={description}
+                  defaultValue={productDetail.description}
                   register={register}
                 />
 
@@ -156,7 +140,7 @@ export default function Update() {
                     type="number"
                     title="Estoque"
                     id="supply"
-                    defaultValue={supply}
+                    defaultValue={productDetail.supply}
                     register={register}
                   />
 
@@ -165,7 +149,7 @@ export default function Update() {
                     type="number"
                     title="Preço"
                     id="price"
-                    defaultValue={price}
+                    defaultValue={productDetail.price}
                     register={register}
                   />
 
@@ -175,7 +159,7 @@ export default function Update() {
                     title="Avaliação"
                     id="stars"
                     disabled
-                    defaultValue={stars}
+                    defaultValue={productDetail.stars}
                     register={register}
                   />
 

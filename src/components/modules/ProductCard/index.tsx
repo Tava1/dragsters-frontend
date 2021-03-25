@@ -1,19 +1,29 @@
+import { useRouter } from 'next/router';
+
 import styles from "./styles.module.scss"
 
-export default function ProductCard() {
+export default function ProductCard({ id, title, fullTitle, price, brand, showcase }) {
+  const router = useRouter();
+
   return (
-    <div className={styles.card}>
+    <div
+      onClick={() => router.push({
+        pathname: '/showcase',
+        query: { id }
+      })}
+      className={styles.card}
+    >
       <div className={styles.showcase}>
-        <img src="/assets/images/roda-rotiform.png" alt="Roda" />
+        <img src={showcase} alt={fullTitle} />
       </div>
       <div className={styles.context}>
         <div className={styles.header}>
-          <span>LHR</span>
-          <h2>LHR-F</h2>
+          <span>{title}</span>
+          <h2>{fullTitle}</h2>
         </div>
         <div className={styles.footer}>
-          <span><strong>R$ 2.000,00</strong>/CADA</span>
-          <h2>ROTIFORM</h2>
+          <span><strong>R$ {price}</strong>/CADA</span>
+          <h2>{brand}</h2>
         </div>
       </div>
     </div>
