@@ -8,11 +8,14 @@ import Button from '../components/elements/Button';
 import styles from '../styles/pages/Showcase.module.scss';
 
 import api from '../services/api';
+import { app } from '../services/firebase';
+
 
 export default function Showcase() {
   const router = useRouter();
 
   const [product, setProduct] = useState(null);
+  const [imagesUrl, setImagesUrl] = useState();
 
   const { id } = router.query
 
@@ -21,6 +24,21 @@ export default function Showcase() {
       setProduct(response.data);
     });
   }, []);
+
+  const getImages = async () => {
+
+    try {
+      const storageRef = app.storage().ref();
+      const fileRef = storageRef.child('products/770d5e4459a43fba.5d39bdcd-4c9f-417b-944b-5aef30a10d18.jpg');
+      const fileURL = await fileRef.getDownloadURL()
+
+      setImagesUrl(fileURL);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getImages()
 
   return (
     <>
@@ -36,17 +54,17 @@ export default function Showcase() {
           <div className={styles.showcaseImages}>
             <div className={styles.mainImage}>
               {/* <img src={`${product.showcase[0].path}\/${product.showcase[0].filename}`} alt="" /> */}
-              <img src="/assets/images/roda-rotiform.png" alt="TEst" />
+              <img src={imagesUrl} alt={product.product.product_fullname} />
             </div>
             <div className={styles.images}>
               <div>
-                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src={imagesUrl} alt={product.product.product_fullname} />
               </div>
               <div>
-                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src={imagesUrl} alt={product.product.product_fullname} />
               </div>
               <div>
-                <img src="/assets/images/thumbnailWheelTest.jpg" alt="TEst" />
+                <img src={imagesUrl} alt={product.product.product_fullname} />
               </div>
             </div>
           </div>
