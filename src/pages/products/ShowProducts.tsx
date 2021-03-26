@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react';
-import { app } from '../../services/firebase';
 
 import styles from "../../styles/pages/ShowProducts.module.scss"
 import ProductCard from "../../components/modules/ProductCard"
@@ -7,6 +6,7 @@ import Footer from "../../components/modules/Footer"
 import Header from "../../components/modules/Header"
 
 import api from '../../services/api';
+import { app } from '../../services/firebase';
 
 export default function ShowProducts() {
 
@@ -42,7 +42,7 @@ export default function ShowProducts() {
     }
   }
 
-  getImages();
+  getImages()
 
   return (
     <>
