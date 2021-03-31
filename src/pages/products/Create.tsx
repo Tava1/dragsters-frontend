@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link';
-import crypto, { createHash } from 'crypto';
+import crypto from 'crypto';
 
 import Header from '../../components/modules/Header';
 import Input from '../../components/elements/Input';
@@ -30,7 +30,7 @@ const FIREBASE_PATH_PRODUCTS = "products/"
 export default function Create() {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState<Boolean>(true);
   const [productCreated, setProductCreated] = useState<ProductCreated>({} as ProductCreated);
 
   const handleNewProduct = async (data) => {
@@ -43,49 +43,58 @@ export default function Create() {
     rest.stars = 0;
 
     await api.post('/products', rest).then((response) => {
-      setProductCreated(response.data)
-      console.log(response.data)
+      setProductCreated(response.data);
     }).catch((error) => {
       console.error(error);
     })
-
-    if (productCreated.product_id !== undefined) {
-      handleImages(images);
-    }
-
   };
 
-  const handleImages = async (images) => {
+  const handleAddImages = async (data) => {
+    const {
+      images,
+    } = data;
 
-    console.log('Enviando arquivos para o firebase...')
+    if (productCreated.product_id === undefined)
+      return
+    else
+      console.log('Enviando arquivos para o firebase...')
 
     const filenames = [];
+    const paths = [];
+
     const id = productCreated.product_id;
 
-    const storageRef = app.storage().ref();
+    try {
+      const storageRef = app.storage().ref();
 
-    for (let i = 0; i < images.length; i++) {
-      const [, extension] = images[i].name.split('.');
+      for (let i = 0; i < images.length; i++) {
+        const [, extension] = images[i].name.split('.');
 
-      const fileHash = crypto.randomBytes(8).toString('hex');
-      const filename = `${fileHash}.${id}.${extension}`;
+        const fileHash = crypto.randomBytes(8).toString('hex');
+        const filename = `${fileHash}.${id}.${extension}`;
 
-      filenames.push(filename);
+        filenames.push(filename);
 
-      const fileRef = storageRef.child(`${FIREBASE_PATH_PRODUCTS}${filename}`);
+        const fileRef = storageRef.child(`${FIREBASE_PATH_PRODUCTS}${filename}`);
 
-      await fileRef.put(images[i]).then((respoense) => {
-        console.log(respoense);
-        router.push('/products/List');
-      }).catch((error) => {
-        console.error(error);
-      });
-    };
+        await fileRef.put(images[i]).then((respoense) => {
+          console.log(respoense);
+        }).catch((error) => {
+          console.error(error);
+        });
 
+        const fileURL = await fileRef.getDownloadURL();
+        paths.push(fileURL);
+      };
+    } catch (error) {
+      console.error(error)
+    }
+
+    // TODO: Mudar o path para o camninho/url da imagem
     const showcaseData = {
       product_id: id,
       filenames,
-      path: FIREBASE_PATH_PRODUCTS,
+      paths,
       thumbnail: false,
     };
 
@@ -96,9 +105,7 @@ export default function Create() {
     }).catch((error) => {
       console.error(error);
     });
-
   };
-
 
   const setStatus = (e) => {
     e.preventDefault();
@@ -208,8 +215,17 @@ export default function Create() {
                 </div>
               </div>
 
-              {/* <input type="file" multiple onChange={onChange} /> */}
+              <div className={styles.actions}>
+                <Link href="/products/List">Cancelar</Link>
+                <Button
+                  title="Próximo"
+                  type="submit"
+                />
+              </div>
 
+            </form>
+
+            <form onSubmit={handleSubmit(handleAddImages)}>
               <Input
                 name="images"
                 type="file"
@@ -219,11 +235,10 @@ export default function Create() {
                 register={register}
               />
 
-
               <div className={styles.actions}>
                 <Link href="/products/List">Cancelar</Link>
                 <Button
-                  title="Salvar"
+                  title="Finalizar"
                   type="submit"
                 />
               </div>
