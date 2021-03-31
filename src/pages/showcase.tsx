@@ -5,40 +5,23 @@ import Link from 'next/link';
 import Header from '../components/modules/Header';
 import Button from '../components/elements/Button';
 
-import styles from '../styles/pages/Showcase.module.scss';
-
 import api from '../services/api';
-import { app } from '../services/firebase';
 
+import styles from '../styles/pages/Showcase.module.scss';
 
 export default function Showcase() {
   const router = useRouter();
 
   const [product, setProduct] = useState(null);
-  const [imagesUrl, setImagesUrl] = useState();
 
   const { id } = router.query
 
   useEffect(() => {
     api.get(`/products/${id}`).then((response) => {
       setProduct(response.data);
+      console.log(response.data);
     });
   }, []);
-
-  const getImages = async () => {
-
-    try {
-      const storageRef = app.storage().ref();
-      const fileRef = storageRef.child('products/770d5e4459a43fba.5d39bdcd-4c9f-417b-944b-5aef30a10d18.jpg');
-      const fileURL = await fileRef.getDownloadURL()
-
-      setImagesUrl(fileURL);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  getImages()
 
   return (
     <>
@@ -53,19 +36,14 @@ export default function Showcase() {
 
           <div className={styles.showcaseImages}>
             <div className={styles.mainImage}>
-              {/* <img src={`${product.showcase[0].path}\/${product.showcase[0].filename}`} alt="" /> */}
-              <img src={imagesUrl} alt={product.product.product_fullname} />
+              <img src={product.showcase[0].path} alt={product.product.product_fullname} />
             </div>
             <div className={styles.images}>
-              <div>
-                <img src={imagesUrl} alt={product.product.product_fullname} />
-              </div>
-              <div>
-                <img src={imagesUrl} alt={product.product.product_fullname} />
-              </div>
-              <div>
-                <img src={imagesUrl} alt={product.product.product_fullname} />
-              </div>
+              {product.showcase.map(img => (
+                <div>
+                  <img src={img.path} alt={product.product.product_fullname} />
+                </div>
+              ))}
             </div>
           </div>
 
@@ -106,7 +84,6 @@ export default function Showcase() {
           </div>
         </main>
       )}
-
 
       <section className={styles.moreAd}>
         <div>
