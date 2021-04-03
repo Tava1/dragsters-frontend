@@ -92,7 +92,7 @@ git checkout -b <seu-nome-ou-apelido>
 Realize o push com o seguinte comando:
 
 ```bash
-git push origin nome-da-sua-branch
+git push origin <branch>
 
 
 # Caso ainda não possua o origin mapeado para o seu fork basta executar:
