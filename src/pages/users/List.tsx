@@ -6,21 +6,11 @@ import Link from 'next/link';
 
 import Header from '../../components/modules/Header';
 import Loading from '../../components/modules/Loading';
-import PageSectionTitle from '../../components/modules/PageSectionTitle'
+import Pagination from '../../components/modules/Pagination';
 
 import api from '../../services/api';
 
 import styles from '../../styles/pages/ListProducts.module.scss'
-
-interface User {
-  id: string;
-  fullname: string;
-  email: string;
-  status: boolean;
-  role: string;
-  created_at: Date;
-  updated_at: Date;
-}
 
 interface CurrentUser {
   id: string;
@@ -30,6 +20,12 @@ interface CurrentUser {
   role: string;
 }
 
+interface PaginationInfo {
+  total: number;
+}
+
+const LIMIT = 10;
+
 export default function List() {
   const router = useRouter();
 
@@ -38,15 +34,18 @@ export default function List() {
 
   const [hasLoading, setHasLoading] = useState<Boolean>(true);
   const [users, setUsers] = useState([]);
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({} as PaginationInfo);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    api.get('/users', { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
+    api.get(`/users?offset=${offset}&limit=${LIMIT}`, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
       const { usersWithoutPassword, resquestInfo } = response.data;
       setUsers(usersWithoutPassword);
+      setPaginationInfo(resquestInfo);
     });
 
     setHasLoading(false);
-  }, [users]);
+  }, [users, offset]);
 
   async function setStatusProductTrue(id) {
     await api.patch(`/users/status/${id}`, { setStatus: true }, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
@@ -67,7 +66,7 @@ export default function List() {
         <div className={styles.containerList}>
           <section className={styles.header}>
             <div>
-              <h2>Usuários<strong>{0}</strong></h2>
+              <h2>Usuários<strong>{paginationInfo.total}</strong></h2>
               <p>Gerenciamento de usuários cadastrados no sistema.</p>
             </div>
             {currentUser.role === 'admin' && (
@@ -181,6 +180,18 @@ export default function List() {
           }
 
         </div>
+
+        {
+          paginationInfo && (
+            <Pagination
+              limit={LIMIT}
+              total={paginationInfo.total}
+              offset={offset}
+              setOffset={setOffset}
+            />
+          )
+        }
+
       </div>
     </>
   )
