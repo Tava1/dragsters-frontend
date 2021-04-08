@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { FaUser, FaProductHunt } from 'react-icons/fa';
 
@@ -6,7 +7,19 @@ import Footer from '../components/modules/Footer';
 
 import styles from '../styles/pages/Menu.module.scss'
 
+import { useAuth } from '../hooks/AuthContext';
+
+interface CurrentUser {
+  id: string;
+  fullname: string;
+  email: string;
+  status: boolean;
+  role: string;
+}
+
 export default function Menu() {
+  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState<CurrentUser>(user as CurrentUser);
 
   return (
     <>
@@ -22,7 +35,6 @@ export default function Menu() {
                 </a>
               </Link>
             </div>
-
             <div className={styles.item}>
               <Link href="/products/List">
                 <a>
@@ -31,6 +43,7 @@ export default function Menu() {
                 </a>
               </Link>
             </div>
+
           </div>
         </div>
       </section>
