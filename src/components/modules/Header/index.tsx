@@ -1,15 +1,28 @@
 import Link from 'next/link';
-import { FaSearch } from 'react-icons/fa';
+import { useAuth } from '../../../hooks/AuthContext';
 
 import styles from './styles.module.scss';
 
-export default function Navigation() {
+import { useState } from 'react';
+
+interface CurrentUser {
+  id: string;
+  fullname: string;
+  email: string;
+  status: boolean;
+  role: string;
+}
+
+export default function Header() {
+  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState<CurrentUser>(user as CurrentUser);
+
   return (
     <header className={styles.navigationContainer}>
       <div className={styles.navigationBar}>
         <div className={styles.logo}>
           <h1>
-            <Link href="/">DRAGSTERS</Link>
+            <Link href="/menu">DRAGSTERS</Link>
           </h1>
         </div>
 
@@ -21,10 +34,20 @@ export default function Navigation() {
             <li><a href="#">Contato</a></li>
           </ul>
 
-          <div className={styles.signInSignOut}>
-            <a href="#">Entrar</a>
-            <a href="#">Registrar</a>
-          </div>
+          {
+            !currentUser ? (
+              <div className={styles.signInSignOut}>
+                <a href="/login">Entrar</a>
+                <a href="#">Registrar</a>
+              </div>
+            ) : (
+              <div className={styles.signInSignOut}>
+                <a
+                  href="/login">{currentUser.fullname}
+                </a>
+              </div>
+            )
+          }
         </nav>
       </div>
     </header>
