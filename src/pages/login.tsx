@@ -1,40 +1,60 @@
-import React from "react"
-import Header from "../components/modules/Header"
+import { useForm } from 'react-hook-form';
+import dynamic from 'next/dynamic';
+// import Header from '../components/modules/Header';
+import Footer from '../components/modules/Footer';
+import Input from '../components/elements/Input';
+import Button from '../components/elements/Button';
+
 import styles from '../styles/pages/Login.module.scss'
 
-export default function Login () {
+import { useAuth } from '../hooks/AuthContext';
+
+const Header = dynamic(import('../components/modules/Header'), { ssr: false })
+
+export default function Login() {
+  const { register, handleSubmit } = useForm();
+
+  const { signIn } = useAuth();
   return (
-<>
-<Header />
-<section className={styles.container_login}>      
-      
-      <div className={styles.loginExterno}>
-        <div className={styles.loginInterno}>
-        <form method="post" action=""> 
-          <h2>ACESSO AO SISTEMA</h2> 
-          <div className={styles.obs_login}>
-          <p>Apenas internos possuem acesso ao sistema. Para mais informações contacte um administrador.</p>
+    <>
+      <Header />
+      <section className={styles.container}>
+        <div className={styles.containerLogin}>
+          <div className={styles.content}>
+            <div>
+              <h2>ACESSO AO SISTEMA</h2>
+              <p>Apenas internos possuem acesso ao sistema. Para mais informações contacte um administrador.</p>
+            </div>
+            <div>
+              <form onSubmit={handleSubmit(signIn)}>
+                <Input
+                  name="email"
+                  title="E-mail"
+                  type="mail"
+                  register={register}
+                  required
+                />
+
+                <Input
+                  name="password"
+                  title="Senha"
+                  type="password"
+                  register={register}
+                  required
+                />
+
+                <Button
+                  title="Entrar"
+                  type="submit"
+                />
+
+              </form>
+            </div>
           </div>
-          <div className={styles.label_login}>
-          <p>
-            <label className="login_name">Email</label><p></p>
-            <input id="name_login" name="name_login"  type="text"></input>
-          </p>
-          <p> 
-            <label  className="login_senha">Senha</label><p></p>
-            <input id="email_login" name="email_login" type="password"/> 
-          </p>
-           </div>
-           <div className={styles.bottomLogin}>
-          <p> 
-            <input type="submit" value="Entrar" /> 
-          </p>
-          </div>
-           
-        </form>
-      </div>
-      </div>
-     </section>
-</>
+
+        </div>
+      </section>
+      <Footer />
+    </>
   )
 }
