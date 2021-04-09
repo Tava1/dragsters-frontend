@@ -101,7 +101,7 @@
           
           .actions {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-end;
 
             span {
               cursor: pointer;
@@ -132,11 +132,6 @@
 
 /* Distribuição dos itens */
 
-.id {
-  flex: 0 0 80px;
-  text-align: center;
-}
-
 .title {
   flex: 0 0 150px;
 }
@@ -146,19 +141,9 @@
 }
 
 .rating {
-  flex: 0 0 80px;
-  text-align: center;
-
-}
-
-.supply {
-  text-align: center;
   flex: 0 0 120px;
-}
-
-.price {
   text-align: center;
-  flex: 0 0 130px;
+
 }
 
 .status {

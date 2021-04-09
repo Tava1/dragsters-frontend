@@ -1,32 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { FaEye, FaEllipsisV } from 'react-icons/fa';
-import { makeStyles } from '@material-ui/core/styles';
-import Pagination from '@material-ui/lab/Pagination';
+import Link from 'next/link';
 
-import SearchBar from '../../components/elements/SearchBar';
 import Header from '../../components/modules/Header';
+import Footer from '../../components/modules/Footer';
+import Loading from '../../components/modules/Loading';
 
 import api from '../../services/api';
 
 import styles from '../../styles/pages/ListProducts.module.scss'
-import Loading from '../../components/modules/Loading';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
 
 export default function List() {
-  const classes = useStyles();
   const router = useRouter();
-
   const [hasLoading, setHasLoading] = useState(true);
-
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -55,14 +42,13 @@ export default function List() {
       <div className={styles.container}>
         <div className={styles.containerList}>
 
-          <header>
+          <section className={styles.header}>
             <div>
               <h2>Produtos <strong>{products.length}</strong></h2>
               <p>Gerenciamento de produtos cadastrados no sistema.</p>
             </div>
-            <SearchBar />
             <Link href="/products/Create">Novo Produto</Link>
-          </header>
+          </section>
 
           {hasLoading ? <Loading /> :
             products.length > 0 ?
@@ -157,14 +143,9 @@ export default function List() {
 
               : <p>Nenhum registro foi encontrado. Realize o cadastro de novos produtos.</p>
           }
-
-          <footer>
-            <div className={classes.root}>
-              <Pagination count={20} variant="outlined" shape="rounded" />
-            </div>
-          </footer>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

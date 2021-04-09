@@ -22,13 +22,21 @@ export default function Header() {
       <div className={styles.navigationBar}>
         <div className={styles.logo}>
           <h1>
-            <Link href="/menu">DRAGSTERS</Link>
+            <Link href="/">
+              <a>
+                DRAGSTERS
+              </a>
+            </Link>
           </h1>
         </div>
 
         <nav>
           <ul>
-            <li><a href="#">Inicio</a></li>
+            <li>
+              <Link href="/products/ShowProducts">
+                <a>Inicio</a>
+              </Link>
+            </li>
             <li><a href="#">Rodas</a></li>
             <li><a href="#">Sobre</a></li>
             <li><a href="#">Contato</a></li>
