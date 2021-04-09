@@ -7,10 +7,11 @@ import Link from 'next/link';
 import Header from '../../components/modules/Header';
 import Loading from '../../components/modules/Loading';
 import Pagination from '../../components/modules/Pagination';
+import Footer from '../../components/modules/Footer';
 
 import api from '../../services/api';
 
-import styles from '../../styles/pages/ListProducts.module.scss'
+import styles from '../../styles/pages/ListUsers.module.scss'
 
 interface CurrentUser {
   id: string;
@@ -69,6 +70,13 @@ export default function List() {
               <h2>Usuários<strong>{paginationInfo.total}</strong></h2>
               <p>Gerenciamento de usuários cadastrados no sistema.</p>
             </div>
+
+            <Link href="/menu">
+              <a>
+                Menu
+              </a>
+            </Link>
+
             {currentUser.role === 'admin' && (
               <Link href="/users/Create">
                 <a>
@@ -76,6 +84,7 @@ export default function List() {
                 </a>
               </Link>
             )}
+
           </section>
 
           {hasLoading ? <Loading /> :
@@ -91,7 +100,7 @@ export default function List() {
                   <div className={styles.rating}>
                     <span>TIPO/PERFIL</span>
                   </div>
-                  <div className={styles.rating}>
+                  <div className={styles.status}>
                     <span>STATUS</span>
                   </div>
                   {
@@ -193,6 +202,7 @@ export default function List() {
         }
 
       </div>
+      <Footer />
     </>
   )
 }

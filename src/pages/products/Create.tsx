@@ -123,13 +123,13 @@ export default function Create() {
       <Header />
       <div className={styles.container}>
         <div className={styles.containerCreate}>
-          <header>
+          <section>
             <div>
               <h2>Novo Produtos</h2>
               <p>Reúna as informações necessárias e cadastre um novo produto.</p>
             </div>
             <Link href="/products/List">Lista de produtos</Link>
-          </header>
+          </section>
 
           <main>
             <form onSubmit={handleSubmit(handleNewProduct)}>

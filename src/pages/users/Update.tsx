@@ -1,17 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import { useAuth } from '../../hooks/AuthContext';
 import Link from 'next/link';
 
 import Header from '../../components/modules/Header';
-import PageSectionTitle from '../../components/modules/PageSectionTitle';
 import Input from '../../components/elements/Input';
 import Button from '../../components/elements/Button';
+import Footer from '../../components/modules/Footer';
 
-import styles from '../../styles/pages/UpdateProduct.module.scss';
 import api from '../../services/api';
-import { useForm } from 'react-hook-form';
 
-import { useAuth } from '../../hooks/AuthContext';
+import styles from '../../styles/pages/UpdateUser.module.scss';
 
 interface User {
   id: string;
@@ -49,9 +49,8 @@ export default function Update() {
 
       console.log(data)
       await api.put(`users/${id}`, data, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
-        console.log(response);
+        router.push('/users/List')
       });
-      // router.push('/users/List');
     } catch (error) {
       console.log(error)
     }
@@ -73,14 +72,13 @@ export default function Update() {
       <Header />
       <div className={styles.container}>
         <div className={styles.containerUpdate}>
-
-          <PageSectionTitle
-            title="Atualiazar Usuário"
-            count=""
-            description="Atualize as informações do usuário."
-            buttonTitle="Lista de usuários"
-            buttonPath="/users/List"
-          />
+          <section className={styles.header}>
+            <div>
+              <h2>Atualiazar Usuário</h2>
+              <p>Atualize as informações do usuário.</p>
+            </div>
+            <Link href="/users/List">Lista de usuários</Link>
+          </section>
 
           {user && (
             <main>
@@ -95,12 +93,13 @@ export default function Update() {
                   defaultValue={user.fullname}
                 />
 
-                <div>
-                  <span><strong>E-mail</strong></span>
+                <div className={styles.userEmail}>
+                  <label>E-mail</label>
                   <span>{user.email}</span>
                 </div>
 
-                <div>
+
+                <div className={styles.select}>
                   <label htmlFor="role">Perfil</label>
                   <select
                     id="role"
@@ -137,12 +136,12 @@ export default function Update() {
 
                 <div>
                   <Link href="/users/PasswordReset">
-                    <a href="">Redefinir Senha</a>
+                    <a>Redefinir Senha</a>
                   </Link>
                 </div>
 
                 <div className={styles.actions}>
-                  <Link href="/">Cancelar</Link>
+                  <Link href="/users/List">Cancelar</Link>
                   <Button
                     title="Salvar"
                     type="submit"
@@ -154,6 +153,7 @@ export default function Update() {
 
         </div>
       </div>
+      <Footer />
     </>
   )
 }

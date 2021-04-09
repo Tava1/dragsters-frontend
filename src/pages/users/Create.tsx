@@ -6,11 +6,10 @@ import Link from 'next/link';
 import Header from '../../components/modules/Header';
 import Input from '../../components/elements/Input';
 import Button from '../../components/elements/Button';
-import PageSectionTitle from '../../components/modules/PageSectionTitle';
 
 import api from '../../services/api';
 
-import styles from '../../styles/pages/CreateProduct.module.scss'
+import styles from '../../styles/pages/CreateUser.module.scss'
 
 export default function Create() {
   const { token } = useAuth();
@@ -31,13 +30,13 @@ export default function Create() {
       <Header />
       <div className={styles.container}>
         <div className={styles.containerCreate}>
-          <PageSectionTitle
-            title="Novo Usuário"
-            count=""
-            description="Reúna as informações necessárias e cadastre um novo usuário."
-            buttonTitle="Lista de usuários"
-            buttonPath="/users/List"
-          />
+          <section className={styles.header}>
+            <div>
+              <h2>Novo Usuário</h2>
+              <p>Reúna as informações necessárias e cadastre um novo usuário.</p>
+            </div>
+            <Link href="/users/List">Lista de usuários</Link>
+          </section>
 
           <main>
             <form onSubmit={handleSubmit(handleNewUser)}>
@@ -67,7 +66,7 @@ export default function Create() {
                 />
               </div>
 
-              <div className={styles.inputGroup}>
+              <div className={styles.select}>
                 <label htmlFor="role">Perfil</label>
                 <select
                   id="role"
@@ -83,7 +82,7 @@ export default function Create() {
               <div className={styles.actions}>
                 <Link href="/users/List">Cancelar</Link>
                 <Button
-                  title="Próximo"
+                  title="Salvar"
                   type="submit"
                 />
               </div>
