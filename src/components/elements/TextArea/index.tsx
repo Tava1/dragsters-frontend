@@ -9,6 +9,9 @@ export default function TextArea({ register, title, ...rest }) {
         ref={register}
       >
       </textarea>
+      {/* {error && (
+        <span>{error}</span>
+      )} */}
     </div>
   )
 }
