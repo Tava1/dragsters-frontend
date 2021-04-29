@@ -9,6 +9,9 @@ export default function Input({ register, title, ...rest }) {
         {...rest}
         ref={register}
       />
+      {/* {error && (
+        <span>{error}</span>
+      )} */}
     </div>
   );
 }

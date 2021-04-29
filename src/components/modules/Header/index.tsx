@@ -45,8 +45,12 @@ export default function Header() {
           {
             !currentUser ? (
               <div className={styles.signInSignOut}>
-                <a href="/login">Entrar</a>
-                <a href="#">Registrar</a>
+                <Link href="/customers/login">
+                  <a>Entrar</a>
+                </Link>
+                <Link href="/customers/register">
+                  <a>Registrar</a>
+                </Link>
               </div>
             ) : (
               <div className={styles.signInSignOut}>
