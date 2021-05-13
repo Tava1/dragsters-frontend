@@ -1,26 +1,24 @@
-import Link from 'next/link';
-import { useAuth } from '../../../hooks/AuthContext';
-
-import styles from './styles.module.scss';
-
 import { useState } from 'react';
+import { useAuth } from '../../../hooks/AuthContext';
+import { FaUser } from 'react-icons/fa';
+import Link from 'next/link';
 
-interface CurrentUser {
+import { Container } from './styles';
+
+interface CurrentCustomer {
   id: string;
   fullname: string;
   email: string;
-  status: boolean;
-  role: string;
 }
 
-export default function Header() {
-  const { user } = useAuth();
-  const [currentUser, setCurrentUser] = useState<CurrentUser>(user as CurrentUser);
+const Header = () => {
+  const { customer, signOut } = useAuth();
+  const [currentCustomer, setCurrentCustomer] = useState<CurrentCustomer>(customer as CurrentCustomer);
 
   return (
-    <header className={styles.navigationContainer}>
-      <div className={styles.navigationBar}>
-        <div className={styles.logo}>
+    <Container>
+      <div className="navigation-bar">
+        <div className="logo">
           <h1>
             <Link href="/">
               <a>
@@ -43,8 +41,8 @@ export default function Header() {
           </ul>
 
           {
-            !currentUser ? (
-              <div className={styles.signInSignOut}>
+            !currentCustomer ? (
+              <div className="sign-in-sign-out">
                 <Link href="/customers/login">
                   <a>Entrar</a>
                 </Link>
@@ -53,15 +51,28 @@ export default function Header() {
                 </Link>
               </div>
             ) : (
-              <div className={styles.signInSignOut}>
-                <a
-                  href="/login">{currentUser.fullname}
-                </a>
+              <div className="dropdown">
+                <FaUser />
+                <div className="dropdown-list">
+                  <div>
+                    <Link href="/customer/perfil">
+                      <a>Meu perfil</a>
+                    </Link>
+                    <Link href="/customer/perfil">
+                      <a>Meu pedidos</a>
+                    </Link>
+                    <button
+                      onClick={signOut}
+                    >Sair</button>
+                  </div>
+                </div>
               </div>
             )
           }
         </nav>
       </div>
-    </header>
+    </Container>
   );
 }
+
+export default Header;

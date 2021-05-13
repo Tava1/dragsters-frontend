@@ -1,11 +1,10 @@
-import React from 'react';
-
-import '../styles/global.css'
 import { AuthProvider } from '../hooks/AuthContext';
 
-function MyApp({ Component, pageProps }) {
+import '../styles/global.css'
 
+function MyApp({ Component, pageProps }) {
   return (
+
     <AuthProvider>
       <Component {...pageProps} />
     </AuthProvider>

@@ -1,11 +1,11 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import { useRouter } from 'next/router'
 import api from '../services/api';
-
+import Cookies from 'js-cookie';
 
 interface AuthState {
   token: string;
-  user: object;
+  customer: object;
 }
 
 interface SignInCredentials {
@@ -14,7 +14,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  user: object;
+  customer: object;
   token: string;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -24,12 +24,12 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    // const token = localStorage.getItem('@dragsters:token');
-    // const user = localStorage.getItem('@dragsters:user');
+    const token = Cookies.get('@dragsters:customer_token');
+    const customer = Cookies.get('@dragsters:customer');
 
-    // if (token && user) {
-    //   return { token, user: JSON.parse(user) };
-    // }
+    if (token && customer) {
+      return { token, customer: JSON.parse(customer) };
+    }
 
     return {} as AuthState;
   });
@@ -37,33 +37,35 @@ const AuthProvider: React.FC = ({ children }) => {
   const router = useRouter();
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
+    const response = await api.post('customers/sessions', {
       email,
       password,
     });
 
-    const { token, user } = response.data;
+    const { token, customer } = response.data;
 
-    localStorage.setItem('@dragsters:token', token);
-    localStorage.setItem('@dragsters:user', JSON.stringify(user));
+    Cookies.set('@dragsters:customer_token', token);
+    Cookies.set('@dragsters:customer', JSON.stringify(customer))
 
-    setData({ token, user });
+    setData({ token, customer });
 
-    router.push('/menu');
+    console.log(token);
+
+    router.push('/');
 
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@dragsters:token');
-    localStorage.removeItem('@dragsters:user');
+    Cookies.remove('@dragsters:customer_token');
+    Cookies.remove('@dragsters:customer');
 
     setData({} as AuthState);
 
-    router.push('/login');
+    router.push('/');
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, token: data.token, signIn, signOut }}>
+    <AuthContext.Provider value={{ customer: data.customer, token: data.token, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
