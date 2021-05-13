@@ -1,9 +1,9 @@
-import styles from "./styles.module.scss";
+import { Container } from "./styles";
 
-export default function Footer() {
-  return (
-    <footer className={styles.container}>
-      <p>©2021 Dragsters. Todos os direitos reservados</p>
-    </footer>
-  );
-}
+const Footer = () => (
+  <Container>
+    <p>©2021 Dragsters. Todos os direitos reservados</p>
+  </Container>
+);
+
+export default Footer;
