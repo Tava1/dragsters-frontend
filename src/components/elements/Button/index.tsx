@@ -1,9 +1,13 @@
-import styles from './styles.module.scss';
+import { Container } from './styles';
 
-export default function Button({ title, ...rest }) {
-  return (
-    <div className={styles.container}>
-      <button {...rest}>{title}</button>
-    </div>
-  )
-}
+const Button = ({ title, ...rest }) => (
+  <Container>
+    <button
+      {...rest}
+    >
+      {title}
+    </button>
+  </Container>
+)
+
+export default Button;
