@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import styles from "../../styles/pages/ShowProducts.module.scss"
-import ProductCard from "../../components/modules/ProductCard"
-import Footer from "../../components/modules/Footer"
-import Header from "../../components/modules/Header"
+import Header from '../../components/modules/Header';
+import Footer from '../../components/modules/Footer';
+import ProductCard from '../../components/modules/ProductCard';
 
+import styles from "../../styles/pages/ShowProducts.module.scss"
 import api from '../../services/api';
 
 export default function ShowProducts() {
@@ -22,7 +22,6 @@ export default function ShowProducts() {
   return (
     <>
       <Header />
-
       <div className={styles.hero}>
         <div className={styles.banner}></div>
         <div className={styles.logo}>
@@ -37,7 +36,7 @@ export default function ShowProducts() {
             <ProductCard
               key={product.product_id}
               id={product.product_id}
-              showcase={product.showcases[0].path}
+              showcase={product.showcases[0]?.path}
               title={product.product_name}
               fullTitle={product.product_fullname}
               price={product.price}
