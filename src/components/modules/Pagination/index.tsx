@@ -4,7 +4,7 @@ const MAX_ITEMS = 10;
 const CURRENT_ITEM = 1;
 const MAX_LEFT = (MAX_ITEMS - CURRENT_ITEM) / 2;
 
-export default function Pagination({ limit, total, offset, setOffset }) {
+const Pagination = ({ limit, total, offset, setOffset }) => {
   const currentPage = offset ? offset / limit + 1 : 1;
   const countPages = Math.ceil(total / limit);
   const firstPage = Math.max(currentPage - MAX_LEFT, 1);
@@ -30,3 +30,5 @@ export default function Pagination({ limit, total, offset, setOffset }) {
     </div>
   );
 }
+
+export default Pagination

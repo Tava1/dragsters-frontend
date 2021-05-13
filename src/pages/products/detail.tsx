@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import Link from 'next/link';
 
-import Header from '../components/modules/Header';
-import Button from '../components/elements/Button';
+import Header from '../../components/modules/Header';
+import Footer from '../../components/modules/Footer';
+import Button from '../../components/elements/Button';
 
-import api from '../services/api';
+import api from '../../services/api';
 
-import styles from '../styles/pages/Showcase.module.scss';
+import styles from '../../styles/pages/Detail.module.scss';
 
-export default function Showcase() {
+export default function Detail() {
   const router = useRouter();
-
   const [product, setProduct] = useState(null);
-
   const { id } = router.query
 
   useEffect(() => {
@@ -26,21 +24,16 @@ export default function Showcase() {
   return (
     <>
       <Header />
-      <section className={styles.adminNavBar}>
-        <div>
-          <Link href="/products/List">Lista de produtos</Link>
-        </div>
-      </section>
       {product && (
         <main className={styles.container}>
 
           <div className={styles.showcaseImages}>
             <div className={styles.mainImage}>
-              <img src={product.showcase[0].path} alt={product.product.product_fullname} />
+              <img src={product.showcase[0]?.path} alt={product.product.product_fullname} />
             </div>
             <div className={styles.images}>
-              {product.showcase.map(img => (
-                <div>
+              {product.showcase.map((img, index) => (
+                <div key={index}>
                   <img src={img.path} alt={product.product.product_fullname} />
                 </div>
               ))}
@@ -62,11 +55,11 @@ export default function Showcase() {
                 <span>AVALIAÇÃO</span>
                 <div className={styles.line}></div>
                 <div className={styles.stars}>
-                  <img src="/assets/starsWheel.svg" alt="1" />
+                  {/* <img src="/assets/starsWheel.svg" alt="1" />
                   <img src="/assets/starsWheel.svg" alt="2" />
                   <img src="/assets/starsWheel.svg" alt="3" />
                   <img src="/assets/starsWheel.svg" alt="4" />
-                  <img src="/assets/starsWheel.svg" alt="5" />
+                  <img src="/assets/starsWheel.svg" alt="5" /> */}
                 </div>
               </div>
             </div>
@@ -79,21 +72,15 @@ export default function Showcase() {
 
             <div className={styles.actions}>
               <Button title="COMPRAR" />
-              <Button title="ADICIONAR AO CARRINHO" />
+              <Button
+                title="ADICIONAR AO CARRINHO"
+              />
             </div>
           </div>
         </main>
       )}
 
-      <section className={styles.moreAd}>
-        <div>
-          <h3>Ande baixo, mas ande com estilo.</h3>
-        </div>
-      </section>
-
-      <footer>
-        <span>footer</span>
-      </footer>
+      <Footer />
     </>
   );
 }
