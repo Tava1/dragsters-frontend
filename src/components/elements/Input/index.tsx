@@ -1,17 +1,29 @@
-import styles from './styles.module.scss';
+import { InputHTMLAttributes } from 'react';
+import { UseFormRegister } from 'react-hook-form';
+import { Container } from './styles';
 
-export default function Input({ register, title, ...rest }) {
-
-  return (
-    <div className={styles.container}>
-      <label htmlFor={title}>{title}</label>
-      <input
-        {...rest}
-        ref={register}
-      />
-      {/* {error && (
-        <span>{error}</span>
-      )} */}
-    </div>
-  );
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  name: string;
+  register: UseFormRegister<any>;
+  required: boolean;
+  error: string;
 }
+
+const Input = ({ register, required, label, name, error, ...rest }: InputProps) => (
+  <Container>
+    <label htmlFor={name}>{label}</label>
+    <input
+      id={name}
+      {...register(name, { required })}
+      {...rest}
+    />
+    {error && (
+      <div className="error">
+        <span>{error}</span>
+      </div>
+    )}
+  </Container>
+);
+
+export default Input;
