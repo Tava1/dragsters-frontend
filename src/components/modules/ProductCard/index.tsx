@@ -2,13 +2,13 @@ import { useRouter } from 'next/router';
 
 import styles from "./styles.module.scss"
 
-export default function ProductCard({ id, title, fullTitle, price, brand, showcase }) {
+const ProductCard = ({ id, title, fullTitle, price, brand, showcase }) => {
   const router = useRouter();
 
   return (
     <div
       onClick={() => router.push({
-        pathname: '/showcase',
+        pathname: '/products/detail',
         query: { id }
       })}
       className={styles.card}
@@ -29,3 +29,5 @@ export default function ProductCard({ id, title, fullTitle, price, brand, showca
     </div>
   );
 }
+
+export default ProductCard;
