@@ -1,17 +1,21 @@
-import styles from './styles.module.scss';
+import { Container } from './styles';
 
-export default function TextArea({ register, title, ...rest }) {
-  return (
-    <div className={styles.container}>
-      <label htmlFor="">{title}</label>
-      <textarea
-        {...rest}
-        ref={register}
-      >
-      </textarea>
-      {/* {error && (
+const TextArea = ({ register, required, error, name, label, ...rest }) => (
+  <Container>
+    <label htmlFor={name}>{label}</label>
+    <textarea
+      {...rest}
+      id={name}
+      name={name}
+      {...register(name, { required })}
+    >
+    </textarea>
+    {error && (
+      <div className="error">
         <span>{error}</span>
-      )} */}
-    </div>
-  )
-}
+      </div>
+    )}
+  </Container>
+)
+
+export default TextArea;
