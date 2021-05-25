@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/AuthContext';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import Link from 'next/link';
+import { useCart } from '../../../hooks/CartContext';
 
 import { Container } from './styles';
 
@@ -11,9 +12,11 @@ interface CurrentCustomer {
   email: string;
 }
 
+
 const Header = () => {
   const { customer, signOut } = useAuth();
   const [currentCustomer, setCurrentCustomer] = useState<CurrentCustomer>(customer as CurrentCustomer);
+  const { cart } = useCart();
 
   return (
     <Container>
@@ -52,7 +55,7 @@ const Header = () => {
               </div>
             ) : (
               <div className="dropdown">
-                <FaUser />
+                <FaUser size={35} />
                 <div className="dropdown-list">
                   <div>
                     <Link href="/customer/perfil">
@@ -69,6 +72,16 @@ const Header = () => {
               </div>
             )
           }
+          <div className="cart">
+            <Link href="/products/cart">
+              <a>
+                <FaShoppingCart size={35} />
+                <div className="count">
+                  <span>{cart.length}</span>
+                </div>
+              </a>
+            </Link>
+          </div>
         </nav>
       </div>
     </Container>
