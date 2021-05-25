@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+
+import { useCart } from '../../hooks/CartContext';
 
 import Header from '../../components/modules/Header';
 import Footer from '../../components/modules/Footer';
@@ -11,6 +13,7 @@ import styles from '../../styles/pages/Detail.module.scss';
 
 export default function Detail() {
   const router = useRouter();
+  const { addItemToCart } = useCart();
   const [product, setProduct] = useState(null);
   const { id } = router.query
 
@@ -74,6 +77,7 @@ export default function Detail() {
               <Button title="COMPRAR" />
               <Button
                 title="ADICIONAR AO CARRINHO"
+                onClick={() => addItemToCart(product)}
               />
             </div>
           </div>
