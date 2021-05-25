@@ -8,7 +8,7 @@ import Input from '../../components/elements/Input';
 import Button from '../../components/elements/Button';
 import Link from 'next/link';
 
-import { Container } from '../../styles/pages/CustomersLogin.styles'
+import { Container } from '../../styles/pages/CustomersLogin'
 
 import { useAuth } from '../../hooks/AuthContext';
 
@@ -21,10 +21,6 @@ export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   const { signIn } = useAuth();
-
-  const handleLogin = async (data) => {
-    console.log(data)
-  };
 
   return (
     <>
