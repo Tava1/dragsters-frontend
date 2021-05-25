@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished'
 
 export const Container = styled.header`
   height: 70px;
@@ -108,6 +109,50 @@ export const Container = styled.header`
           }
         }
       }
+
+      .cart {
+        margin-left: 1rem;
+        position: relative;
+
+          a {
+            svg {
+              color: var(--red);
+              transition: color 0.2s;
+            }
+
+            .count {
+              background: var(--red);
+              padding: 2px 4px;
+              border-radius: 10px; 
+              display: inline;
+              border: 2px solid var(--white);
+
+              position: absolute;
+              right: -10px;
+              top: -8px;
+
+              display: flex;
+              transition: transform 0.2s;
+
+              span {
+                color: var(--white);
+                font-weight: bold;
+                font-size: 0.8rem;
+              }
+            }
+          }
+
+          &:hover {
+            svg {
+              color: ${shade(0.25, 'red')};
+            }
+
+            .count {
+              transform: scale(1.2);
+              background: ${shade(0.25, 'red')};
+            }
+          }
+        }
     }
   }
 `;

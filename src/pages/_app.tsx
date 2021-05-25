@@ -1,13 +1,15 @@
 import { AuthProvider } from '../hooks/AuthContext';
+import { CartProvider } from '../hooks/CartContext';
 
 import '../styles/global.css'
 
 function MyApp({ Component, pageProps }) {
   return (
-
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <CartProvider>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </CartProvider>
   )
 }
 

@@ -61,7 +61,11 @@ const AuthProvider: React.FC = ({ children }) => {
 
     setData({} as AuthState);
 
-    router.push('/');
+    if (router.pathname === '/')
+      router.reload();
+    else
+      router.push('/');
+
   }, []);
 
   return (
@@ -74,9 +78,8 @@ const AuthProvider: React.FC = ({ children }) => {
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
-  if (!context) {
+  if (!context)
     throw new Error('useAuth must be used within an AuthProvider');
-  }
 
   return context;
 }
