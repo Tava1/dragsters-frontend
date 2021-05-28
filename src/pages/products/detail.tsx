@@ -20,7 +20,6 @@ export default function Detail() {
   useEffect(() => {
     api.get(`/products/${id}`).then((response) => {
       setProduct(response.data);
-      console.log(response.data);
     });
   }, []);
 

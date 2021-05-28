@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 interface AuthState {
   token: string;
-  customer: object;
+  customer: CustomerData;
 }
 
 interface SignInCredentials {
@@ -13,8 +13,16 @@ interface SignInCredentials {
   password: string;
 }
 
+interface CustomerData {
+  id: string;
+  fullname: string;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 interface AuthContextData {
-  customer: object;
+  customer: CustomerData;
   token: string;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -48,8 +56,6 @@ const AuthProvider: React.FC = ({ children }) => {
     Cookies.set('@dragsters:customer', JSON.stringify(customer))
 
     setData({ token, customer });
-
-    console.log(token);
 
     router.push('/');
 

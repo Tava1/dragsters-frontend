@@ -17,6 +17,12 @@ export const Container = styled.section`
       margin: 3rem auto;
     }
     
+    .current {
+      span {
+        font-weight: bold;
+      }
+    }
+
     .next {
       opacity: 0.4;
     }
