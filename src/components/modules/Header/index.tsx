@@ -34,7 +34,7 @@ const Header = () => {
         <nav>
           <ul>
             <li>
-              <Link href="/products/ShowProducts">
+              <Link href="/products/show-products">
                 <a>Inicio</a>
               </Link>
             </li>
@@ -58,10 +58,10 @@ const Header = () => {
                 <FaUser size={35} />
                 <div className="dropdown-list">
                   <div>
-                    <Link href="/customer/perfil">
+                    <Link href="/customers/profile">
                       <a>Meu perfil</a>
                     </Link>
-                    <Link href="/customer/perfil">
+                    <Link href="/customers/orders">
                       <a>Meu pedidos</a>
                     </Link>
                     <button
@@ -73,7 +73,7 @@ const Header = () => {
             )
           }
           <div className="cart">
-            <Link href="/products/cart">
+            <Link href="/products/cart-step">
               <a>
                 <FaShoppingCart size={35} />
                 <div className="count">

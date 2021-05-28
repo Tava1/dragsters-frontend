@@ -3,7 +3,7 @@ import { FaTrash } from 'react-icons/fa';
 
 import { useCart } from '../../../hooks/CartContext';
 
-const CartItem = ({ image, product_id, index, fullname, brand, price }) => {
+const CartItem = ({ image, product_id, index, fullname, brand, price, amount }) => {
   const { removeItem } = useCart();
 
   return (
@@ -26,7 +26,7 @@ const CartItem = ({ image, product_id, index, fullname, brand, price }) => {
         </div>
 
         <div className="amount">
-          <input value="4" type="number" />
+          <input value={amount} type="number" />
           <span><strong>R$ {price}</strong></span>
         </div>
       </div>

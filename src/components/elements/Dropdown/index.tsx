@@ -4,7 +4,7 @@ import { UseFormRegister } from "react-hook-form";
 import styles from './styles.module.scss';
 
 interface DropdownProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
+  title?: string;
   options: Array<string>
   name: string;
   register: UseFormRegister<any>;
