@@ -22,7 +22,7 @@ const ProductCard = ({ id, title, fullTitle, price, brand, showcase }) => {
           <h2>{fullTitle}</h2>
         </div>
         <div className={styles.footer}>
-          <span><strong>R$ {price}</strong>/CADA</span>
+          <span><strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price)}</strong>/CADA</span>
           <h2>{brand}</h2>
         </div>
       </div>
