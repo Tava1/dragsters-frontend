@@ -69,7 +69,7 @@ export default function Detail() {
               <p>{product.product.description}</p>
             </div>
             <div className={styles.price}>
-              <span><strong>R$ {product.product.price}</strong>/CADA</span>
+              <span><strong>{new Intl.NumberFormat('pt-BT', { style: 'currency', currency: 'BRL' }).format(product.product.price)}</strong>/CADA</span>
             </div>
 
             <div className={styles.actions}>

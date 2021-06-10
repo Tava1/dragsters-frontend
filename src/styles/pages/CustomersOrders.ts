@@ -22,22 +22,33 @@ export const Container = styled.section`
       background: var(--white);
       box-shadow: 0px 5px 5px rgba(0, 0, 0,0.10);
       transition: background 0.2s;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 1rem;
       margin: 1rem 0;
 
-      span + span {
-        color: var(--text-highlight);
-      }
-
-      .detail {
-        svg {
-          color: var(--red);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      
+      .order-number {
+        span {
+          color: var(--text-highlight);
         }
       }
+
+      .order-context {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .detail {
+          svg {
+            color: var(--red);
+          }
+        }
+      }
+
 
       &:hover {
         background: rgba(0, 0, 0,0.10);

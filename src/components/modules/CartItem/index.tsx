@@ -27,7 +27,7 @@ const CartItem = ({ image, product_id, index, fullname, brand, price, amount }) 
 
         <div className="amount">
           <input value={amount} type="number" />
-          <span><strong>R$ {price}</strong></span>
+          <span><strong>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price)}</strong></span>
         </div>
       </div>
     </Container>

@@ -79,20 +79,20 @@ const PaymentStep = () => {
             <h3>Subtotal</h3>
             <div>
               <p>Frete</p>
-              <span>R$ {shippingPrice ? shippingPrice : '0,00'}</span>
+              <span>{shippingPrice ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(shippingPrice) : 'R$ 0,00'}</span>
             </div>
 
             <div>
               <p>Total dos produtos</p>
-              <span>R$ {cartTotal ? cartTotal : '0,00'}</span>
+              <span>{cartTotal ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cartTotal) : 'R$ 0,00'}</span>
             </div>
           </div>
 
           <div className="total">
             <h3>Total</h3>
             <div>
-              <span><strong>R$ {cartTotal ? cartTotal + shippingPrice : '0,00'}</strong> em até 12x</span>
-              <span>ou 1x <strong>R$ {cartTotal ? cartTotal + shippingPrice : '0,00'}</strong></span>
+              <span><strong>{cartTotal ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cartTotal + shippingPrice) : 'R$ 0,00'}</strong> em até 12x</span>
+              <span>ou 1x <strong>{cartTotal ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cartTotal + shippingPrice) : 'R$ 0,00'}</strong></span>
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@ const PaymentStep = () => {
               </div>
               <div className="total">
                 <span>Total:</span>
-                <span>R$ {cartTotal ? cartTotal + shippingPrice : "0,00"}</span>
+                <span>{cartTotal ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cartTotal + shippingPrice) : "R$ 0,00"}</span>
               </div>
               <Button
                 onClick={handleCheckout}
