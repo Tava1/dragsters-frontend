@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isValid } from 'cpf';
 import * as yup from 'yup';
+import { useRouter } from 'next/router';
 
 import Header from '../../components/modules/Header';
 import Footer from '../../components/modules/Footer';
@@ -47,6 +48,7 @@ export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
   const [addressAPI, setAddressAPI] = useState({} as viaCEPResponse);
   const [cep, setCep] = useState<string>('');
+  const router = useRouter();
 
   const handleNewAccount = async (data) => {
     const {
@@ -93,6 +95,7 @@ export default function Register() {
 
     await api.post('customers', { customer, addressInfo }).then(response => {
       console.log(response);
+      router.push('/customers/login')
     }).catch(error => {
       console.error(error);
     })

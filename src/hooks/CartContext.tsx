@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import Cookies from 'js-cookie';
 
 interface Product {
   brand: string;
@@ -61,7 +62,15 @@ interface CartContextData {
 const CartContext = createContext({} as CartContextData);
 
 const CartProvider: React.FC = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const cartCookie = Cookies.get('@dragsters:cart');
+
+    if (cartCookie) {
+      return JSON.parse(cartCookie);
+    }
+
+    return [];
+  });
   const [cartTotal, setCartTotal] = useState(0);
   const [deliveryAddressId, setDeliveryAddressId] = useState('');
   const [shippingPrice, setShippingPrice] = useState(0);
@@ -73,6 +82,8 @@ const CartProvider: React.FC = ({ children }) => {
     if (result.length <= 0) {
       productItem.amount = 1;
       setCartItems([...cartItems, productItem])
+
+      Cookies.set('@dragsters:cart', JSON.stringify([...cartItems, productItem]));
     }
     else {
       let items = [...cartItems];
@@ -82,6 +93,7 @@ const CartProvider: React.FC = ({ children }) => {
 
       setCartItems(items);
 
+      Cookies.set('@dragsters:cart', JSON.stringify(items));
     }
   }
 
@@ -90,6 +102,7 @@ const CartProvider: React.FC = ({ children }) => {
     items.splice(index, 1);
 
     setCartItems([...items]);
+    Cookies.set('@dragsters:cart', JSON.stringify(items));
   }
 
   useEffect(() => {

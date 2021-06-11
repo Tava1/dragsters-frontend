@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router'
 import { FaCheckCircle, FaCreditCard } from 'react-icons/fa'
@@ -19,6 +19,24 @@ import { useAuth } from '../../hooks/AuthContext';
 import { Title, Container, Summary } from '../../styles/pages/ProductsPaymentStep';
 
 import api from '../../services/api';
+import Cookies from 'js-cookie';
+
+interface DeliveryAddressResponse {
+  id: string;
+  fullname: string;
+  zip_code: string;
+  address: string;
+  number: string;
+  neighborhood: string;
+  complement: string;
+  city: string;
+  state: string;
+  reference_point: string;
+  primary: boolean
+  customers_id: string;
+  created_at: Date;
+  updated_at: Date;
+}
 
 const schema = yup.object().shape({
   card_number: yup.string().min(13, 'Número do cartão inválido.').max(16, 'Número do cartão inválido.').required('Campo obrigatório.').typeError('O número do cartão deve ser válido.'),
@@ -33,6 +51,14 @@ const PaymentStep = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
   const [paymentSelectedOption, setPaymentSelectedOption] = useState(0);
   const router = useRouter();
+  const [deliveryAdresses, setDeliveryAdresses] = useState<DeliveryAddressResponse[]>([]);
+
+  useEffect(() => {
+    api.get(`/customer/delivery-address/${customer.id}`).then(response => {
+      console.log(response.data)
+      setDeliveryAdresses(response.data);
+    })
+  }, []);
 
   const handleCheckout = async () => {
     const data = {
@@ -67,13 +93,16 @@ const PaymentStep = () => {
       </Title>
 
       <Summary>
-        <div className="delivery-address">
-          <h2>Gustavo Santos</h2>
-          <p>Augusto, 123</p>
-          <p>Casa</p>
-          <p>Analia Franco</p>
-          <span>São Paulo, SP - 08465-020</span>
-        </div>
+
+        {deliveryAdresses[0] && (
+          <div className="delivery-address">
+            <h2>{deliveryAdresses[0]?.fullname}</h2>
+            <p>{`${deliveryAdresses[0]?.address}, ${deliveryAdresses[0]?.number}`}</p>
+            <p>{deliveryAdresses[0]?.complement}</p>
+            <p>{deliveryAdresses[0]?.neighborhood}</p>
+            <span>{`${deliveryAdresses[0]?.city}, ${deliveryAdresses[0]?.state} - ${deliveryAdresses[0]?.zip_code}`}</span>
+          </div>
+        )}
         <div className="context">
           <div className="subtotal">
             <h3>Subtotal</h3>

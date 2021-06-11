@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useRouter } from 'next/router'
 
 import Header from '../../components/modules/Header';
 import Footer from '../../components/modules/Footer';
@@ -19,7 +20,7 @@ const schema = yup.object().shape({
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
-
+  const router = useRouter();
   const { signIn } = useAuth();
 
   return (
@@ -68,6 +69,7 @@ export default function Login() {
 
         <Button
           title="REGISTRE-SE"
+          onClick={() => router.push('/customers/register')}
         />
       </Container>
       <Footer />

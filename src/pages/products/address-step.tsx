@@ -43,6 +43,7 @@ const AddressStep = () => {
 
   useEffect(() => {
     api.get(`/customer/delivery-address/${customer.id}`).then(response => {
+      console.log(response.data)
       setDeliveryAdresses(response.data);
     })
   }, []);

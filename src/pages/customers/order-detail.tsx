@@ -93,9 +93,6 @@ const OrderDetail = () => {
               <img src="" alt="" />
             </div>
             <div className="context">
-              <h3>RODA XFH</h3>
-              <p>Quantidade: 4</p>
-              <p>Total: R$4 0000</p>
             </div>
           </div>
         </div>
